@@ -1,0 +1,100 @@
+/* ==========================================================================
+   Design tokens — магазин PDF-мастер-классов по вязанию
+   Источник палитры: docs/brief/palette-reference.jpg («Молочный и бордовый»)
+   Контраст (WCAG 2.1) посчитан скриптом, см. docs/design/README.md
+   ========================================================================== */
+
+:root {
+  /* ---------- Цвет: фон ---------- */
+  --color-bg: #FBF7F0;            /* молочный (основной вариант A) */
+  --color-bg-alt: #FDFAF3;        /* светлее (вариант B) */
+  --color-surface: #FFFFFF;       /* карточки, поля ввода */
+  --color-surface-muted: #F3ECE0; /* плашки, «как это работает», футер */
+  --color-border: #E6DCCD;
+  --color-border-strong: #CDBFAB;
+
+  /* ---------- Цвет: текст ---------- */
+  --color-text: #2E2420;          /* тёмно-коричневый: 14.15:1 на bg */
+  --color-text-muted: #6B5E57;    /* вторичный: 5.85:1 на bg (AA) */
+  --color-text-inverse: #FFFFFF;
+
+  /* ---------- Цвет: акцент (бордовый) ---------- */
+  --color-accent: #8E1A2E;        /* кнопки; белый текст 8.98:1 */
+  --color-accent-hover: #74142A;  /* 11.19:1 */
+  --color-accent-active: #5E1022; /* 13.35:1 */
+  --color-accent-soft: #F6E7EA;   /* фон бейджа; бордовый текст 7.50:1 */
+  --color-accent-disabled: #C9A3AB; /* только для disabled (WCAG не требует контраста) */
+
+  /* ---------- Цвет: статусы ---------- */
+  --color-error: #B3261E;         /* 6.12:1 на bg */
+  --color-error-soft: #FBE9E7;
+  --color-success: #2F6B3F;       /* 5.97:1 на bg */
+  --color-success-soft: #E8F1EA;
+  --color-focus: #8E1A2E;
+
+  /* ---------- Шрифты (Google Fonts, есть кириллица) ---------- */
+  --font-heading: "Cormorant Garamond", "Georgia", "Times New Roman", serif;
+  --font-body: "Manrope", "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+
+  /* Шкала (mobile-first; на ≥768px часть увеличивается, см. ниже) */
+  --text-xs: 0.75rem;   /* 12 — бейджи */
+  --text-sm: 0.875rem;  /* 14 — подписи, цены в карточке */
+  --text-base: 1rem;    /* 16 — основной текст, поля ввода (без зума iOS) */
+  --text-lg: 1.125rem;  /* 18 */
+  --text-xl: 1.375rem;  /* 22 — h3 */
+  --text-2xl: 1.75rem;  /* 28 — h2 */
+  --text-3xl: 2.25rem;  /* 36 — h1 */
+  --leading-tight: 1.2;
+  --leading-normal: 1.55;
+  --weight-regular: 400;
+  --weight-medium: 500;
+  --weight-semibold: 600;
+  --weight-bold: 700;
+
+  /* ---------- Отступы (шаг 4px) ---------- */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
+
+  /* ---------- Скругления, тени ---------- */
+  --radius-sm: 6px;
+  --radius-md: 12px;
+  --radius-lg: 20px;
+  --radius-pill: 999px;
+  --shadow-sm: 0 1px 2px rgba(46, 36, 32, 0.06);
+  --shadow-md: 0 6px 20px rgba(46, 36, 32, 0.08);
+  --shadow-nav: 0 -4px 20px rgba(46, 36, 32, 0.08);
+
+  /* ---------- Раскладка ---------- */
+  --container-max: 1200px;
+  --container-pad: 16px;
+  --grid-gap: 12px;            /* сетка каталога 2 в ряд на 390px: (390-32-12)/2 = 173px */
+  --header-h: 56px;
+  --bottom-nav-h: 64px;
+  --tap-min: 44px;             /* минимальная зона нажатия */
+
+  /* ---------- Анимация ---------- */
+  --ease: cubic-bezier(0.2, 0, 0, 1);
+  --dur-fast: 120ms;
+  --dur-base: 200ms;
+}
+
+@media (min-width: 768px) {
+  :root {
+    --text-2xl: 2rem;      /* 32 */
+    --text-3xl: 3rem;      /* 48 */
+    --container-pad: 32px;
+    --grid-gap: 24px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root { --dur-fast: 0ms; --dur-base: 0ms; }
+}

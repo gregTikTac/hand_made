@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Карточка товара — макет</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Manrope:wght@400;500;600;700&display=swap&subset=cyrillic" rel="stylesheet">
+<link rel="stylesheet" href="tokens.css">
+<link rel="stylesheet" href="components.css">
+</head>
+<body class="page page--product">
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-home" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/></symbol>
+  <symbol id="i-grid" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4" y="4" width="7" height="7" rx="1.5"/><rect x="13" y="4" width="7" height="7" rx="1.5"/><rect x="4" y="13" width="7" height="7" rx="1.5"/><rect x="13" y="13" width="7" height="7" rx="1.5"/></symbol>
+  <symbol id="i-bag" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 8h14l-1 12H6L5 8z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></symbol>
+</svg>
+
+<div class="promo-bar" role="status">Неделя скидок: −30% на все мастер-классы до 5 ноября</div>
+
+<header class="header">
+  <div class="container header__inner">
+    <a class="logo" href="01-home.html">Петелька<span>.</span></a>
+    <nav class="header__nav" aria-label="Основная навигация">
+      <a href="01-home.html">Главная</a>
+      <a href="02-catalog.html" aria-current="page">Мастер-классы</a>
+      <a href="#about">Об авторе</a>
+    </nav>
+    <a class="btn btn--ghost header__cart" href="04-cart-checkout.html">Корзина <span class="counter">2</span></a>
+  </div>
+</header>
+
+<main class="container">
+  <nav class="breadcrumbs" aria-label="Хлебные крошки"><a href="01-home.html">Главная</a><span aria-hidden="true">/</span><a href="02-catalog.html">Мастер-классы</a><span aria-hidden="true">/</span><span>Мишка Тедди</span></nav>
+
+  <div class="product">
+    <div class="gallery">
+      <div class="gallery__main" aria-label="Фотографии мастер-класса">
+        <div class="gallery__slide"><div class="badges"><span class="badge badge--preorder">Предзаказ</span><span class="badge badge--sale">−30%</span></div><span class="ph ph--2" role="img" aria-label="Фото 1"></span></div>
+        <div class="gallery__slide"><span class="ph ph--1" role="img" aria-label="Фото 2"></span></div>
+        <div class="gallery__slide"><span class="ph ph--4" role="img" aria-label="Фото 3"></span></div>
+        <div class="gallery__slide">
+          <!-- Видео: в проекте — iframe VK Видео/Rutube/YouTube, загружается по клику (lazy) -->
+          <button class="gallery__video" type="button" style="border:0;font:inherit;cursor:pointer;width:100%">
+            <svg viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="31" fill="none" stroke="currentColor" stroke-width="2"/><path d="M26 20l18 12-18 12z" fill="currentColor"/></svg>
+            <span>Смотреть видео</span>
+          </button>
+        </div>
+      </div>
+      <div class="gallery__dots" aria-hidden="true"><span class="gallery__dot" aria-current="true"></span><span class="gallery__dot"></span><span class="gallery__dot"></span><span class="gallery__dot"></span></div>
+      <div class="gallery__thumbs">
+        <button class="gallery__thumb" type="button" aria-current="true" aria-label="Фото 1"><span class="ph ph--2"></span></button>
+        <button class="gallery__thumb" type="button" aria-label="Фото 2"><span class="ph ph--1"></span></button>
+        <button class="gallery__thumb" type="button" aria-label="Фото 3"><span class="ph ph--4"></span></button>
+        <button class="gallery__thumb" type="button" aria-label="Видео"><span class="gallery__video" style="font-size:10px">▶</span></button>
+      </div>
+    </div>
+
+    <div class="product__info">
+      <h1 class="product__title h2">Мишка Тедди с шарфом</h1>
+      <div class="product__format">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M14 3H6v18h12V7z"/><path d="M14 3v4h4"/></svg>
+        PDF-схема · 32 страницы · рус.
+      </div>
+
+      <div class="product__buy">
+        <div class="price price--lg"><span class="price__current price__current--sale">420 ₽</span><span class="price__old">600 ₽</span><span class="badge badge--sale">−30%</span></div>
+        <div class="preorder-note" role="note">
+          <strong>Предзаказ до 8 ноября</strong>
+          PDF придёт на почту 12 ноября. Сейчас — по сниженной цене.
+        </div>
+        <button class="btn btn--block" type="button">Добавить в корзину</button>
+      </div>
+
+      <h2 class="h3">О мастер-классе</h2>
+      <p>Подробная PDF-схема с фото каждого этапа. Высота игрушки — 22 см при указанной пряже. Подходит для тех, кто уже знает основы: кольцо амигуруми, прибавки и убавки.</p>
+      <ul class="features">
+        <li>Пошаговые фото каждого ряда</li>
+        <li>Схема сборки и оформления мордочки</li>
+        <li>Выкройка шарфа и рекомендации по пряже</li>
+        <li>Ссылка на файл приходит на email сразу после оплаты</li>
+      </ul>
+
+      <h2 class="h3">Остались вопросы?</h2>
+      <div class="socials" style="margin-bottom:var(--space-6)">
+        <a class="social" href="#">Поддержка</a>
+        <a class="social" href="#" rel="noopener">VK</a>
+        <a class="social" href="#" rel="noopener">Instagram</a>
+      </div>
+    </div>
+  </div>
+
+  <section class="materials">
+    <h2>Необходимые материалы</h2>
+    <!-- Материалы — ФОТОГРАФИЕЙ, загружается автором в админке; клик открывает на весь экран -->
+    <div class="materials__photo"><span class="ph ph--6" role="img" aria-label="Фото: пряжа, крючок 2,5 мм, наполнитель, глазки 8 мм, игла"></span></div>
+  </section>
+</main>
+
+<div class="sticky-buy">
+  <div class="price"><span class="price__current price__current--sale">420 ₽</span><span class="price__old">600 ₽</span></div>
+  <button class="btn" type="button">В корзину</button>
+</div>
+<footer class="footer">
+  <div class="container">
+    <div class="footer__grid">
+      <div>
+        <a class="logo" href="01-home.html">Петелька<span>.</span></a>
+        <p class="muted" style="margin-top:var(--space-3)">PDF-мастер-классы по вязанию игрушек.</p>
+        <div class="socials">
+          <a class="social" href="#" rel="noopener">VK</a>
+          <a class="social" href="#" rel="noopener">Instagram</a>
+          <a class="social" href="#" rel="noopener">Telegram</a>
+        </div>
+      </div>
+      <div><div class="footer__title">Магазин</div><ul class="footer__links"><li><a href="02-catalog.html">Все мастер-классы</a></li><li><a href="02-catalog.html">Комбо</a></li><li><a href="#about">Об авторе</a></li></ul></div>
+      <div><div class="footer__title">Помощь</div><ul class="footer__links"><li><a href="#">Поддержка</a></li><li><a href="#">Не пришло письмо?</a></li></ul></div>
+      <div><div class="footer__title">Документы</div><ul class="footer__links"><li><a href="#">Публичная оферта</a></li><li><a href="#">Политика конфиденциальности</a></li><li><a href="#">Согласие на обработку ПДн</a></li></ul></div>
+    </div>
+    <div class="footer__legal">© 2026 Самозанятая Иванова А. А., ИНН 000000000000 · Реквизиты-заглушка</div>
+  </div>
+</footer>
+
+<nav class="bottom-nav" aria-label="Мобильная навигация">
+  <a class="bottom-nav__item" href="01-home.html"><svg><use href="#i-home"/></svg>Главная</a>
+  <a class="bottom-nav__item" href="02-catalog.html" aria-current="page"><svg><use href="#i-grid"/></svg>Мастер-классы</a>
+  <a class="bottom-nav__item" href="04-cart-checkout.html"><svg><use href="#i-bag"/></svg>Корзина<span class="counter" aria-label="2 товара">2</span></a>
+</nav>
+</body>
+</html>

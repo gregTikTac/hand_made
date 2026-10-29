@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Корзина и оформление — макет</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Manrope:wght@400;500;600;700&display=swap&subset=cyrillic" rel="stylesheet">
+<link rel="stylesheet" href="tokens.css">
+<link rel="stylesheet" href="components.css">
+</head>
+<body class="page">
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-home" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/></symbol>
+  <symbol id="i-grid" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4" y="4" width="7" height="7" rx="1.5"/><rect x="13" y="4" width="7" height="7" rx="1.5"/><rect x="4" y="13" width="7" height="7" rx="1.5"/><rect x="13" y="13" width="7" height="7" rx="1.5"/></symbol>
+  <symbol id="i-bag" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 8h14l-1 12H6L5 8z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></symbol>
+</svg>
+
+<div class="promo-bar" role="status">Неделя скидок: −30% на все мастер-классы до 5 ноября</div>
+
+<header class="header">
+  <div class="container header__inner">
+    <a class="logo" href="01-home.html">Петелька<span>.</span></a>
+    <nav class="header__nav" aria-label="Основная навигация">
+      <a href="01-home.html">Главная</a>
+      <a href="02-catalog.html">Мастер-классы</a>
+      <a href="#about">Об авторе</a>
+    </nav>
+    <a class="btn btn--ghost header__cart" href="04-cart-checkout.html">Корзина <span class="counter">2</span></a>
+  </div>
+</header>
+
+<main class="container">
+  <nav class="breadcrumbs" aria-label="Хлебные крошки"><a href="01-home.html">Главная</a><span aria-hidden="true">/</span><span>Корзина</span></nav>
+  <h1 class="h2">Корзина</h1>
+
+  <div class="alert alert--info" role="status">Цена «Зайка Соня» обновилась: началась акция −30%. Проверьте итог.</div>
+
+  <div class="checkout">
+    <div>
+      <ul class="cart-list">
+        <li class="cart-item">
+          <div class="cart-item__img"><span class="ph ph--1"></span></div>
+          <div>
+            <p class="cart-item__title">Зайка Соня в платье</p>
+            <div class="price"><span class="price__current price__current--sale">420 ₽</span><span class="price__old">600 ₽</span></div>
+          </div>
+          <button class="icon-btn" type="button" aria-label="Удалить «Зайка Соня в платье»"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+        </li>
+        <li class="cart-item">
+          <div class="cart-item__img"><span class="ph ph--2"></span></div>
+          <div>
+            <p class="cart-item__title">Мишка Тедди с шарфом</p>
+            <p class="cart-item__note">Предзаказ · файл придёт 12 ноября</p>
+            <div class="price"><span class="price__current price__current--sale">420 ₽</span><span class="price__old">600 ₽</span></div>
+          </div>
+          <button class="icon-btn" type="button" aria-label="Удалить «Мишка Тедди с шарфом»"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+        </li>
+        <li class="cart-item is-removing" aria-busy="true">
+          <div class="cart-item__img"><span class="ph ph--4"></span></div>
+          <div><p class="cart-item__title">Овечка Долли (удаляется…)</p><div class="price"><span class="price__current">490 ₽</span></div></div>
+          <button class="icon-btn" type="button" aria-label="Удалить" disabled><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+        </li>
+      </ul>
+
+      <form class="panel" style="margin-top:var(--space-6)" novalidate>
+        <h2 class="h3">Куда отправить PDF</h2>
+        <div class="field field--error">
+          <label class="field__label" for="email">Email</label>
+          <input class="input" id="email" name="email" type="email" inputmode="email" autocomplete="email" value="anna@yandex" aria-invalid="true" aria-describedby="email-err email-hint">
+          <span class="field__error" id="email-err">Проверьте адрес: похоже, пропущено «.ru»</span>
+          <span class="field__hint" id="email-hint">Регистрация не нужна. Ссылка на файлы придёт на этот адрес.</span>
+        </div>
+        <div class="field">
+          <label class="field__label" for="email2">Повторите email</label>
+          <input class="input" id="email2" name="email2" type="email" inputmode="email" autocomplete="email" placeholder="you@example.ru">
+        </div>
+        <label class="checkbox checkbox--error"><input type="checkbox" required aria-describedby="c1-err"><span>Принимаю <a class="link" href="#">оферту</a> и даю <a class="link" href="#">согласие на обработку персональных данных</a> <span id="c1-err">— обязательно</span></span></label>
+        <label class="checkbox"><input type="checkbox"><span>Хочу получать письма о новых мастер-классах и скидках (необязательно)</span></label>
+      </form>
+    </div>
+
+    <aside class="checkout__summary">
+      <div class="panel">
+        <h2 class="h3">Итого</h2>
+        <div class="summary-row"><span>2 мастер-класса</span><span>1 200 ₽</span></div>
+        <div class="summary-row summary-row--discount"><span>Скидка</span><span>−360 ₽</span></div>
+        <div class="summary-row summary-row--total"><span>К оплате</span><span>840 ₽</span></div>
+        <button class="btn btn--block" type="submit" style="margin-top:var(--space-4)" disabled>Перейти к оплате</button>
+        <p class="secure-note">Оплата картой или СБП · Чек придёт на email</p>
+      </div>
+      <p class="mock-label">Состояние: загрузка (после нажатия)</p>
+      <button class="btn btn--block is-loading" type="button" aria-busy="true">Перейти к оплате</button>
+    </aside>
+  </div>
+
+  <p class="mock-label">Состояние: пустая корзина</p>
+  <div class="empty panel">
+    <svg class="empty__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true"><path d="M5 8h14l-1 12H6L5 8z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg>
+    <h2 class="h3">В корзине пока пусто</h2>
+    <p class="muted">Загляните в каталог — там больше 80 мастер-классов.</p>
+    <a class="btn" href="02-catalog.html">Перейти в каталог</a>
+  </div>
+
+  <p class="mock-label">Состояние: ошибка оплаты (возврат с платёжной страницы)</p>
+  <div class="alert alert--error" role="alert">Оплата не прошла. Деньги не списаны. Попробуйте ещё раз или выберите другой способ.</div>
+</main>
+<footer class="footer">
+  <div class="container">
+    <div class="footer__grid">
+      <div>
+        <a class="logo" href="01-home.html">Петелька<span>.</span></a>
+        <p class="muted" style="margin-top:var(--space-3)">PDF-мастер-классы по вязанию игрушек.</p>
+        <div class="socials">
+          <a class="social" href="#" rel="noopener">VK</a>
+          <a class="social" href="#" rel="noopener">Instagram</a>
+          <a class="social" href="#" rel="noopener">Telegram</a>
+        </div>
+      </div>
+      <div><div class="footer__title">Магазин</div><ul class="footer__links"><li><a href="02-catalog.html">Все мастер-классы</a></li><li><a href="02-catalog.html">Комбо</a></li><li><a href="#about">Об авторе</a></li></ul></div>
+      <div><div class="footer__title">Помощь</div><ul class="footer__links"><li><a href="#">Поддержка</a></li><li><a href="#">Не пришло письмо?</a></li></ul></div>
+      <div><div class="footer__title">Документы</div><ul class="footer__links"><li><a href="#">Публичная оферта</a></li><li><a href="#">Политика конфиденциальности</a></li><li><a href="#">Согласие на обработку ПДн</a></li></ul></div>
+    </div>
+    <div class="footer__legal">© 2026 Самозанятая Иванова А. А., ИНН 000000000000 · Реквизиты-заглушка</div>
+  </div>
+</footer>
+
+<nav class="bottom-nav" aria-label="Мобильная навигация">
+  <a class="bottom-nav__item" href="01-home.html"><svg><use href="#i-home"/></svg>Главная</a>
+  <a class="bottom-nav__item" href="02-catalog.html"><svg><use href="#i-grid"/></svg>Мастер-классы</a>
+  <a class="bottom-nav__item" href="04-cart-checkout.html" aria-current="page"><svg><use href="#i-bag"/></svg>Корзина<span class="counter" aria-label="2 товара">2</span></a>
+</nav>
+</body>
+</html>
