@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Компоненты — макет</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Manrope:wght@400;500;600;700&display=swap&subset=cyrillic" rel="stylesheet">
+<link rel="stylesheet" href="tokens.css">
+<link rel="stylesheet" href="components.css">
+</head>
+<body class="page">
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-home" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/></symbol>
+  <symbol id="i-grid" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4" y="4" width="7" height="7" rx="1.5"/><rect x="13" y="4" width="7" height="7" rx="1.5"/><rect x="4" y="13" width="7" height="7" rx="1.5"/><rect x="13" y="13" width="7" height="7" rx="1.5"/></symbol>
+  <symbol id="i-bag" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 8h14l-1 12H6L5 8z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></symbol>
+</svg>
+
+
+
+<header class="header">
+  <div class="container header__inner">
+    <a class="logo" href="01-home.html">Петелька<span>.</span></a>
+    <nav class="header__nav" aria-label="Основная навигация">
+      <a href="01-home.html">Главная</a>
+      <a href="02-catalog.html">Мастер-классы</a>
+      <a href="#about">Об авторе</a>
+    </nav>
+    <a class="btn btn--ghost header__cart" href="04-cart-checkout.html">Корзина <span class="counter">2</span></a>
+  </div>
+</header>
+
+<main class="container">
+  <h1 class="h2" style="margin-top:var(--space-6)">Компоненты и состояния</h1>
+  <p class="muted">Витрина дизайн-системы. Классы из этого файла переносятся в Django-шаблоны (`templates/components/`).</p>
+
+  <p class="mock-label">Палитра</p>
+  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:var(--space-3)">
+    <div class="panel" style="background:var(--color-bg);border:1px solid var(--color-border)">bg #FBF7F0</div>
+    <div class="panel" style="background:var(--color-bg-alt);border:1px solid var(--color-border)">bg-alt #FDFAF3</div>
+    <div class="panel" style="background:var(--color-surface-muted)">surface-muted #F3ECE0</div>
+    <div class="panel" style="background:var(--color-accent);color:#fff">accent #8E1A2E</div>
+    <div class="panel" style="background:var(--color-accent-hover);color:#fff">hover #74142A</div>
+    <div class="panel" style="background:var(--color-accent-active);color:#fff">active #5E1022</div>
+    <div class="panel" style="background:var(--color-accent-soft);color:var(--color-accent)">accent-soft #F6E7EA</div>
+    <div class="panel" style="background:var(--color-text);color:#fff">text #2E2420</div>
+    <div class="panel" style="color:var(--color-text-muted)">text-muted #6B5E57</div>
+  </div>
+
+  <p class="mock-label">Типографика</p>
+  <h1>Заголовок H1 — Cormorant Garamond</h1>
+  <h2>Заголовок H2 — вяжем вместе</h2>
+  <h3>Заголовок H3 — Необходимые материалы</h3>
+  <p>Основной текст — Manrope 16/1.55. Съешь же ещё этих мягких французских булок, да выпей чаю.</p>
+  <p class="muted">Вторичный текст — подсказки, мета-информация.</p>
+
+  <p class="mock-label">Кнопки: default · hover · active · focus · disabled · loading</p>
+  <div style="display:flex;flex-wrap:wrap;gap:var(--space-3)">
+    <button class="btn" type="button">В корзину</button>
+    <button class="btn" type="button" style="--btn-bg:var(--color-accent-hover);--btn-bd:var(--color-accent-hover)">Hover</button>
+    <button class="btn" type="button" style="--btn-bg:var(--color-accent-active);--btn-bd:var(--color-accent-active)">Active</button>
+    <button class="btn" type="button" style="outline:2px solid var(--color-focus);outline-offset:2px">Focus</button>
+    <button class="btn" type="button" disabled>Disabled</button>
+    <button class="btn is-loading" type="button" aria-busy="true">Loading</button>
+  </div>
+  <div style="display:flex;flex-wrap:wrap;gap:var(--space-3);margin-top:var(--space-3)">
+    <button class="btn btn--secondary" type="button">Secondary</button>
+    <button class="btn btn--secondary" type="button" disabled>Disabled</button>
+    <button class="btn btn--secondary is-loading" type="button">Loading</button>
+    <button class="btn btn--ghost" type="button">Ghost</button>
+    <button class="btn btn--added" type="button">✓ В корзине</button>
+    <button class="btn btn--sm" type="button">Small</button>
+  </div>
+
+  <p class="mock-label">Бейджи и цены</p>
+  <div style="display:flex;flex-wrap:wrap;gap:var(--space-2);align-items:center">
+    <span class="badge badge--sale">−30%</span>
+    <span class="badge badge--preorder">Предзаказ</span>
+    <span class="badge badge--combo">Комбо</span>
+    <span class="badge">Новинка</span>
+  </div>
+  <div style="display:flex;flex-wrap:wrap;gap:var(--space-6);margin-top:var(--space-3)">
+    <div class="price"><span class="price__current">600 ₽</span></div>
+    <div class="price"><span class="price__current price__current--sale">420 ₽</span><span class="price__old">600 ₽</span></div>
+    <div class="price price--lg"><span class="price__current price__current--sale">420 ₽</span><span class="price__old">600 ₽</span></div>
+  </div>
+
+  <p class="mock-label">Табы категорий</p>
+  <div class="tabs" role="tablist">
+    <a class="tab" role="tab" aria-selected="true" href="#">Все <span class="tab__count">84</span></a>
+    <a class="tab" role="tab" aria-selected="false" href="#">Комбо <span class="tab__count">9</span></a>
+  </div>
+
+  <p class="mock-label">Поля формы: default · focus · error · disabled</p>
+  <div style="display:grid;gap:var(--space-2);max-width:420px">
+    <div class="field"><label class="field__label" for="f1">Email</label><input class="input" id="f1" placeholder="you@example.ru"></div>
+    <div class="field"><label class="field__label" for="f2">Focus</label><input class="input" id="f2" value="anna@" style="border-color:var(--color-accent);box-shadow:0 0 0 3px var(--color-accent-soft)"></div>
+    <div class="field field--error"><label class="field__label" for="f3">Error</label><input class="input" id="f3" value="anna@yandex" aria-invalid="true"><span class="field__error">Проверьте адрес</span></div>
+    <div class="field"><label class="field__label" for="f4">Disabled</label><input class="input" id="f4" value="anna@yandex.ru" disabled></div>
+    <label class="checkbox"><input type="checkbox" checked><span>Отмеченный чекбокс</span></label>
+    <label class="checkbox"><input type="checkbox"><span>Неотмеченный (рассылка — всегда по умолчанию так)</span></label>
+    <label class="checkbox checkbox--error"><input type="checkbox"><span>Обязательное согласие — ошибка</span></label>
+  </div>
+
+  <p class="mock-label">Уведомления</p>
+  <div class="alert alert--info">Цена обновилась: началась акция.</div>
+  <div class="alert alert--success">Письмо отправлено повторно.</div>
+  <div class="alert alert--error" role="alert">Оплата не прошла. Деньги не списаны.</div>
+  <div class="preorder-note"><strong>Предзаказ до 8 ноября</strong>PDF придёт на почту 12 ноября.</div>
+</main>
+<footer class="footer">
+  <div class="container">
+    <div class="footer__grid">
+      <div>
+        <a class="logo" href="01-home.html">Петелька<span>.</span></a>
+        <p class="muted" style="margin-top:var(--space-3)">PDF-мастер-классы по вязанию игрушек.</p>
+        <div class="socials">
+          <a class="social" href="#" rel="noopener">VK</a>
+          <a class="social" href="#" rel="noopener">Instagram</a>
+          <a class="social" href="#" rel="noopener">Telegram</a>
+        </div>
+      </div>
+      <div><div class="footer__title">Магазин</div><ul class="footer__links"><li><a href="02-catalog.html">Все мастер-классы</a></li><li><a href="02-catalog.html">Комбо</a></li><li><a href="#about">Об авторе</a></li></ul></div>
+      <div><div class="footer__title">Помощь</div><ul class="footer__links"><li><a href="#">Поддержка</a></li><li><a href="#">Не пришло письмо?</a></li></ul></div>
+      <div><div class="footer__title">Документы</div><ul class="footer__links"><li><a href="#">Публичная оферта</a></li><li><a href="#">Политика конфиденциальности</a></li><li><a href="#">Согласие на обработку ПДн</a></li></ul></div>
+    </div>
+    <div class="footer__legal">© 2026 Самозанятая Иванова А. А., ИНН 000000000000 · Реквизиты-заглушка</div>
+  </div>
+</footer>
+
+<nav class="bottom-nav" aria-label="Мобильная навигация">
+  <a class="bottom-nav__item" href="01-home.html"><svg><use href="#i-home"/></svg>Главная</a>
+  <a class="bottom-nav__item" href="02-catalog.html"><svg><use href="#i-grid"/></svg>Мастер-классы</a>
+  <a class="bottom-nav__item" href="04-cart-checkout.html"><svg><use href="#i-bag"/></svg>Корзина<span class="counter" aria-label="2 товара">2</span></a>
+</nav>
+</body>
+</html>
