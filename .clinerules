@@ -1,0 +1,37 @@
+# Правила проекта «Магазин PDF-мастер-классов по вязанию»
+
+## Источники истины (читать перед любой задачей)
+1. docs/brief/client-brief-transcript.txt — слова заказчицы (первоисточник требований).
+2. docs/ARCHITECTURE.md — архитектура; docs/adr/ — принятые решения.
+3. docs/ROADMAP.md — этапы, задачи, Definition of Done.
+4. docs/design/ — дизайн-токены и HTML-макеты.
+При конфликте: ADR > ARCHITECTURE > ROADMAP > макеты. Конфликт с брифом — спросить разработчика.
+
+## Стек (см. ADR-0001)
+- Python 3.12, Django 5.x, PostgreSQL 16, Redis 7, Celery.
+- Фронт: Django-шаблоны + HTMX + Alpine.js (минимально) + Tailwind (standalone CLI, без Node).
+- Админка: Django admin (+ тема, см. ADR-0001).
+- Запуск: Docker Compose. Новые зависимости — только с обоснованием.
+
+## Процесс
+- Сначала план файлов и изменений, затем код. Ничего вне текущего этапа ROADMAP — идеи в раздел v2.
+- Маленькие коммиты (Conventional Commits: feat:, fix:, docs:, test:, chore:, refactor:).
+- Ветка на этап: stage-N-short-name. Тег после этапа: v0.N.
+- Отступление от ARCHITECTURE — только через новый ADR (docs/adr/NNNN-title.md).
+- В конце этапа обновить чекбоксы ROADMAP.md и CHANGELOG.md.
+
+## Код
+- Форматирование и линт: ruff (format + check). Тесты: pytest + pytest-django.
+- Деньги — только Decimal / целые копейки, никогда float. Цена считается ТОЛЬКО на сервере (catalog/pricing.py).
+- Сумма платежа берётся из Order (снимок цен в OrderItem), не из корзины.
+- Webhooks идемпотентны (уникальный индекс на provider_payment_id), статусы — через state machine.
+- Celery-задачи идемпотентны и с ретраями.
+- Секреты — только из переменных окружения (.env не коммитить, поддерживать .env.example).
+- Тексты интерфейса — на русском. Код, имена, комментарии — на английском.
+- Mobile-first: каталог всегда сетка 2 карточки в ряд, включая 390px.
+
+## Команды
+- docker compose up -d
+- docker compose run --rm web python manage.py migrate
+- docker compose run --rm web pytest
+- docker compose run --rm web ruff check . && ruff format --check .
