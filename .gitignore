@@ -27,6 +27,8 @@ Thumbs.db
 .vscode/*
 !.vscode/settings.json
 
-# Content dumps (PDF and photos are kept outside git)
+# Content dumps (PDF, photos, chat exports kept outside git / in local storage)
 /content/
 *.pdf
+# Telegram export is a large local reference (binary photos, HTML export); keep local, do not commit
+docs/brief/ChatExport_2026-10-29/

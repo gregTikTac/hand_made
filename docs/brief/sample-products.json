@@ -1,0 +1,119 @@
+{
+  "meta": {
+    "source": "Telegram-экспорт docs/brief/ChatExport_2026-10-29/messages.html",
+    "date_export": "2026-10-29",
+    "author_name": "Екатерина Зуева",
+    "author_handle": "@baloo_hand",
+    "note": "В экспорте 4 текстовых карточки с фото, не 5. Каждая карточка — мастер-класс + набор фото.",
+    "photo_pattern": "Первая фотография в сообщении — заглавная (cover), остальные — процесс/детали/материалы."
+  },
+  "products": [
+    {
+      "slug": "lisichka",
+      "title": "Мастер-класс «Лисичка»",
+      "base_price": 45000,
+      "currency": "RUB",
+      "category": "single",
+      "cover_photo": "photos/photo_1@29-10-2026_16-55-04.jpg",
+      "photos": [
+        "photos/photo_1@29-10-2026_16-55-04.jpg",
+        "photos/photo_2@29-10-2026_16-55-04.jpg",
+        "photos/photo_3@29-10-2026_16-55-04.jpg",
+        "photos/photo_4@29-10-2026_16-55-04.jpg",
+        "photos/photo_5@29-10-2026_16-55-04.jpg",
+        "photos/photo_6@29-10-2026_16-55-04.jpg",
+        "photos/photo_7@29-10-2026_16-55-04.jpg"
+      ],
+      "format": "PDF",
+      "difficulty": "не указана",
+      "height_cm": 30,
+      "description": "Вас ждёт подробный и понятный мастер-класс с большим количеством фотографий процесса вязания и сборки игрушки и доступным пояснением. Моя поддержка на любом этапе вязания! Лисичка цельно вязаная, пришиваем только ушки и мордочку. Высота 30 см. Описание воротничка входит в мастер-класс!",
+      "construction": "цельно вязаная, пришиваем только ушки и мордочку",
+      "clothing_included": true,
+      "videos_count": 0,
+      "support": true
+    },
+    {
+      "slug": "zabavnye-ovechki",
+      "title": "Мастер-класс «Забавные овечки»",
+      "base_price": 40000,
+      "currency": "RUB",
+      "category": "single",
+      "cover_photo": "photos/photo_8@29-10-2026_16-59-42.jpg",
+      "photos": [
+        "photos/photo_8@29-10-2026_16-59-42.jpg",
+        "photos/photo_9@29-10-2026_16-59-42.jpg",
+        "photos/photo_10@29-10-2026_16-59-42.jpg",
+        "photos/photo_11@29-10-2026_16-59-42.jpg",
+        "photos/photo_12@29-10-2026_16-59-42.jpg",
+        "photos/photo_13@29-10-2026_16-59-42.jpg",
+        "photos/photo_14@29-10-2026_16-59-42.jpg",
+        "photos/photo_15@29-10-2026_16-59-42.jpg",
+        "photos/photo_16@29-10-2026_16-59-42.jpg"
+      ],
+      "format": "PDF",
+      "difficulty": "не указана",
+      "height_cm": 14,
+      "length_cm": 20,
+      "description": "Вас ждёт подробный и понятный мастер-класс с большим количеством фотографий процесса вязания и сборки игрушки, тремя видео сложных моментов и доступным пояснением. Моя поддержка на любом этапе вязания! Высота 14 см, длина 20 см.",
+      "construction": "не указано",
+      "clothing_included": false,
+      "videos_count": 3,
+      "support": true
+    },
+    {
+      "slug": "kozlyonok-borya",
+      "title": "Мастер-класс «Козлёнок Боря»",
+      "base_price": 45000,
+      "currency": "RUB",
+      "category": "single",
+      "cover_photo": "photos/photo_17@29-10-2026_17-14-49.jpg",
+      "photos": [
+        "photos/photo_17@29-10-2026_17-14-49.jpg",
+        "photos/photo_18@29-10-2026_17-14-49.jpg",
+        "photos/photo_19@29-10-2026_17-14-49.jpg",
+        "photos/photo_20@29-10-2026_17-14-49.jpg",
+        "photos/photo_21@29-10-2026_17-14-49.jpg",
+        "photos/photo_22@29-10-2026_17-14-49.jpg",
+        "photos/photo_23@29-10-2026_17-14-49.jpg"
+      ],
+      "format": "PDF",
+      "difficulty": "не указана",
+      "height_cm": 25,
+      "description": "Вас ждёт подробный и понятный мастер-класс с большим количеством фотографий процесса вязания и сборки игрушки, одним видео более сложного момента и доступным пояснением. Моя поддержка на любом этапе вязания! Козлик цельно вязаный, пришиваем ушки, мордочку и задние ножки. Высота 25 см.",
+      "construction": "цельно вязаный, пришиваем ушки, мордочку и задние ножки",
+      "clothing_included": false,
+      "videos_count": 1,
+      "support": true
+    },
+    {
+      "slug": "plyushevye-kopytca",
+      "title": "Мастер-класс «Плюшевые копытца»",
+      "base_price": 60000,
+      "currency": "RUB",
+      "category": "combo",
+      "cover_photo": "photos/photo_24@29-10-2026_17-26-46.jpg",
+      "photos": [
+        "photos/photo_24@29-10-2026_17-26-46.jpg",
+        "photos/photo_25@29-10-2026_17-26-46.jpg",
+        "photos/photo_26@29-10-2026_17-26-46.jpg",
+        "photos/photo_27@29-10-2026_17-26-46.jpg",
+        "photos/photo_28@29-10-2026_17-26-46.jpg",
+        "photos/photo_29@29-10-2026_17-26-46.jpg",
+        "photos/photo_30@29-10-2026_17-26-46.jpg",
+        "photos/photo_31@29-10-2026_17-26-46.jpg",
+        "photos/photo_32@29-10-2026_17-26-46.jpg",
+        "photos/photo_33@29-10-2026_17-26-46.jpg"
+      ],
+      "format": "PDF",
+      "difficulty": "не указана",
+      "height_cm": 27,
+      "length_cm": 30,
+      "description": "Вас ждёт подробный и понятный мастер-класс с большим количеством фотографий процесса вязания и сборки всех трёх игрушек, семью видео сложных моментов и доступным пояснением. Моя поддержка на любом этапе вязания! Игрушки цельно вязаные, пришиваем ушки, мордочку, рожки и хвостик. Высота 27-30 см. Описание вязания одежды входит в мастер-класс!",
+      "construction": "цельно вязаные, пришиваем ушки, мордочку, рожки и хвостик",
+      "clothing_included": true,
+      "videos_count": 7,
+      "support": true
+    }
+  ]
+}
