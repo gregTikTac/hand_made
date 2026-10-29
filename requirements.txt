@@ -1,0 +1,31 @@
+# Core
+Django>=5.1,<5.2
+python-dotenv>=1.0,<1.1
+dj-database-url>=2.3,<2.4
+
+# Database / cache / task queue
+psycopg[binary]>=3.2,<3.3
+celery[redis]>=5.4,<5.5
+django-celery-beat>=2.7,<2.8
+redis>=5.2,<5.3
+
+# Admin UI
+django-unfold>=0.49,<0.50
+django-import-export>=4.3,<4.4
+
+# Storage
+django-storages[boto3]>=1.14,<1.15
+Pillow>=11.0,<11.1
+
+# Security / utils
+django-ratelimit>=4.1,<4.2
+
+# WSGI / server
+gunicorn>=23.0,<24.0
+whitenoise>=6.8,<6.9
+
+# Dev/test (installed separately in dev)
+# ruff>=0.7,<0.8
+# pytest>=8.3,<8.4
+# pytest-django>=4.9,<4.10
+# factory-boy>=3.3,<3.4

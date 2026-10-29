@@ -13,6 +13,7 @@ htmlcov/
 /media/
 /staticfiles/
 *.sqlite3
+test_db.sqlite3
 
 # Secrets / env
 .env

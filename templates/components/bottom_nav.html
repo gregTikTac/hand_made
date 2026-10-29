@@ -1,0 +1,11 @@
+<nav class="bottom-nav" aria-label="Мобильная навигация">
+  <a class="bottom-nav__item" href="{% url 'home' %}" {% if request.path == '/' %}aria-current="page"{% endif %}>
+    <svg><use href="#i-home"/></svg>Главная
+  </a>
+  <a class="bottom-nav__item" href="#">
+    <svg><use href="#i-grid"/></svg>Мастер-классы
+  </a>
+  <a class="bottom-nav__item" href="#">
+    <svg><use href="#i-bag"/></svg>Корзина
+  </a>
+</nav>

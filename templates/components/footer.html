@@ -1,0 +1,39 @@
+<footer class="footer">
+  <div class="container">
+    <div class="footer__grid">
+      <div>
+        <a class="logo" href="{% url 'home' %}">{{ SITE_NAME }}<span>.</span></a>
+        <p class="muted" style="margin-top:var(--space-3)">PDF-мастер-классы по вязанию игрушек.</p>
+        <div class="socials">
+          <a class="social" href="#" rel="noopener">VK</a>
+          <a class="social" href="#" rel="noopener">Instagram</a>
+          <a class="social" href="#" rel="noopener">Telegram</a>
+        </div>
+      </div>
+      <div>
+        <div class="footer__title">Магазин</div>
+        <ul class="footer__links">
+          <li><a href="#">Все мастер-классы</a></li>
+          <li><a href="#">Комбо</a></li>
+          <li><a href="#about">Об авторе</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer__title">Помощь</div>
+        <ul class="footer__links">
+          <li><a href="#">Поддержка</a></li>
+          <li><a href="#">Не пришло письмо?</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer__title">Документы</div>
+        <ul class="footer__links">
+          <li><a href="#">Публичная оферта</a></li>
+          <li><a href="#">Политика конфиденциальности</a></li>
+          <li><a href="#">Согласие на обработку ПДн</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer__legal">© {% now 'Y' %} {{ SITE_NAME }}</div>
+  </div>
+</footer>

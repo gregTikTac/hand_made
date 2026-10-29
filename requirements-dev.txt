@@ -1,0 +1,8 @@
+-r requirements.txt
+
+ruff>=0.7,<0.8
+pytest>=8.3,<8.4
+pytest-django>=4.9,<4.10
+factory-boy>=3.3,<3.4
+coverage>=7.6,<7.7
+django-debug-toolbar>=4.4,<4.5
