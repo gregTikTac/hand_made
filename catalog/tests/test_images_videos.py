@@ -39,12 +39,32 @@ class TestImages:
         image = ProductImageFactory(image=ContentFile(buffer.getvalue(), name="a.png"))
         assert storages["default"].exists(f"{image.image.name}.360.webp")
 
-    def test_delete_removes_files_and_variants(self):
+    def test_delete_removes_files_and_variants(self, django_capture_on_commit_callbacks):
         image = ProductImageFactory()
         name = image.image.name
-        image.delete()
+        with django_capture_on_commit_callbacks(execute=True):
+            image.delete()
         assert not storages["default"].exists(name)
         assert not storages["default"].exists(f"{name}.360.webp")
+
+    def test_files_survive_until_commit(self, django_capture_on_commit_callbacks):
+        """A rolled-back deletion must not lose files: removal is deferred to on_commit."""
+        image = ProductImageFactory()
+        name = image.image.name
+        with django_capture_on_commit_callbacks(execute=False) as callbacks:
+            image.delete()
+        assert callbacks
+        assert storages["default"].exists(name)
+
+    def test_cascade_delete_of_product_removes_all_files(self, django_capture_on_commit_callbacks):
+        image = ProductImageFactory()
+        product = image.product
+        names = [image.image.name, f"{image.image.name}.720.webp", product.pdf_file.name]
+        with django_capture_on_commit_callbacks(execute=True):
+            product.delete()
+        assert not storages["default"].exists(names[0])
+        assert not storages["default"].exists(names[1])
+        assert not storages["private"].exists(names[2])
 
     def test_replacing_file_removes_old_one(self):
         image = ProductImageFactory()

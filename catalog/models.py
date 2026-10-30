@@ -315,15 +315,6 @@ class ProductImage(models.Model):
                 previous.image.delete(save=False)
             image_utils.generate_variants(self.image)
 
-    def delete(self, *args, **kwargs):
-        image = self.image
-        width = self.image_width
-        result = super().delete(*args, **kwargs)
-        if image:
-            image_utils.delete_variants(image, width)
-            image.delete(save=False)
-        return result
-
 
 class ProductVideo(models.Model):
     """Video by link (VK Видео / Rutube / YouTube); own video files are v2."""
