@@ -2,7 +2,7 @@
   <a class="bottom-nav__item" href="{% url 'home' %}" {% if request.path == '/' %}aria-current="page"{% endif %}>
     <svg><use href="#i-home"/></svg>Главная
   </a>
-  <a class="bottom-nav__item" href="#">
+  <a class="bottom-nav__item" href="{% url 'catalog:list' %}" {% if request.path == '/catalog/' or request.path == '/catalog/combo/' or '/p/' in request.path %}aria-current="page"{% endif %}>
     <svg><use href="#i-grid"/></svg>Мастер-классы
   </a>
   <a class="bottom-nav__item" href="#">

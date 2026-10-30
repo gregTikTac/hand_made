@@ -15,7 +15,7 @@
 | `.clinerules` | Правила проекта для ИИ-ассистентов |
 
 ## Статус
-Этапы 0 (дизайн) и 1 (каркас) завершены, следующий — этап 2 (каталог). Подробности: `docs/ROADMAP.md`, `CHANGELOG.md`.
+Этапы 0 (дизайн), 1 (каркас) и 2 (каталог) завершены, следующий — этап 3 (корзина и чекаут). Подробности: `docs/ROADMAP.md`, `CHANGELOG.md`.
 
 ## Быстрый старт
 ```bash
@@ -30,5 +30,7 @@ make superuser              # создать администратора
 | `make test` | pytest в контейнере |
 | `make lint` / `make fmt` | ruff check + format / автоформат |
 | `make migrate` | применить миграции |
+| `docker compose run --rm web python manage.py seed_demo` | 84 демо-товара (только DEBUG) |
+| `... manage.py import_media --source <папка>` | фото/PDF из `<папка>/<slug>/` |
 
 Установка pre-commit: `pip install pre-commit && pre-commit install`.

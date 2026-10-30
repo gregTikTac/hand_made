@@ -3,7 +3,7 @@
     <a class="logo" href="{% url 'home' %}">{{ SITE_NAME }}<span>.</span></a>
     <nav class="header__nav" aria-label="Основная навигация">
       <a href="{% url 'home' %}" {% if request.path == '/' %}aria-current="page"{% endif %}>Главная</a>
-      <a href="#">Мастер-классы</a>
+      <a href="{% url 'catalog:list' %}" {% if request.path == '/catalog/' or request.path == '/catalog/combo/' or '/p/' in request.path %}aria-current="page"{% endif %}>Мастер-классы</a>
       <a href="#about">Об авторе</a>
     </nav>
     <a class="btn btn--ghost header__cart" href="#">Корзина</a>

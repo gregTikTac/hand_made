@@ -1,0 +1,3 @@
+{# HTMX response: extra cards appended to #product-grid + the refreshed "show more" control. #}
+{% for product in products %}{% include "catalog/_card.html" %}{% endfor %}
+{% include "catalog/_more.html" with oob=True %}

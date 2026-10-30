@@ -21,10 +21,17 @@ CSRF_TRUSTED_ORIGINS = env.list("CSRF_TRUSTED_ORIGINS", default=[])
 SITE_NAME = env("SITE_NAME", default="Петелька")
 ADMIN_URL = env("ADMIN_URL", default="admin/")
 
+# Contact links (moved to SiteSettings in stage 7). Empty value = link is hidden.
+SUPPORT_URL = env("SUPPORT_URL", default="")
+VK_URL = env("VK_URL", default="")
+TELEGRAM_URL = env("TELEGRAM_URL", default="")
+INSTAGRAM_URL = env("INSTAGRAM_URL", default="")
+
 INSTALLED_APPS = [
     "unfold",
     "unfold.contrib.filters",
     "unfold.contrib.forms",
+    "unfold.contrib.import_export",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -110,6 +117,8 @@ USE_TZ = True
 
 STATIC_URL = "static/"
 STATIC_ROOT = BASE_DIR / "staticfiles"
+# Project-level assets (css/js/img); without this Django does not find /static in the repo root.
+STATICFILES_DIRS = [BASE_DIR / "static"]
 
 MEDIA_URL = "media/"
 MEDIA_ROOT = BASE_DIR / "media"

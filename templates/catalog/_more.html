@@ -1,0 +1,7 @@
+{# "Show more" control. Replaced out-of-band after every HTMX page load. #}
+<div id="catalog-more" class="catalog-more"{% if oob %} hx-swap-oob="true"{% endif %}>
+  {% if next_url %}
+    <a class="btn btn--secondary" href="{{ next_url }}"
+       hx-get="{{ next_url }}" hx-target="#product-grid" hx-swap="beforeend" hx-push-url="false">Показать ещё</a>
+  {% endif %}
+</div>

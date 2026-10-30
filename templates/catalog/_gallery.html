@@ -1,0 +1,57 @@
+{% load shop %}
+{# Gallery: swipe (scroll-snap) on mobile, thumbnails on desktop; video iframes load on click only. #}
+<div class="gallery" x-data="{ current: 0, go(i) { this.current = i; $refs.track.scrollTo({ left: i * $refs.track.clientWidth, behavior: 'smooth' }) } }">
+  <div class="gallery__main" x-ref="track" aria-label="Фотографии мастер-класса"
+       x-on:scroll.debounce.80ms="current = Math.round($refs.track.scrollLeft / $refs.track.clientWidth)">
+    {% for image in images %}
+    <div class="gallery__slide">
+      {% if forloop.first %}
+        <div class="badges">
+          {% if product.price.is_preorder %}<span class="badge badge--preorder">Предзаказ</span>{% endif %}
+          {% if product.is_combo %}<span class="badge badge--combo">Комбо</span>{% endif %}
+          {% if product.price.is_sale %}<span class="badge badge--sale">−{{ product.price.discount_percent }}%</span>{% endif %}
+        </div>
+      {% endif %}
+      {% picture image "(min-width: 1024px) 50vw, 100vw" alt=product.title eager=forloop.first %}
+    </div>
+    {% empty %}
+    <div class="gallery__slide card__media--empty" style="display:flex;align-items:center;justify-content:center" role="img" aria-label="Фото скоро появится">
+      <span class="muted">Фото скоро появится</span>
+    </div>
+    {% endfor %}
+    {% for video in videos %}
+    <div class="gallery__slide" x-data="{ play: false }">
+      <template x-if="!play">
+        <button class="gallery__video" type="button" style="border:0;font:inherit;cursor:pointer;width:100%" x-on:click="play = true">
+          <svg viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="31" fill="none" stroke="currentColor" stroke-width="2"/><path d="M26 20l18 12-18 12z" fill="currentColor"/></svg>
+          <span>{{ video.title|default:"Смотреть видео" }}</span>
+        </button>
+      </template>
+      <template x-if="play">
+        <iframe src="{{ video.embed_url }}" title="{{ video.title|default:product.title }}" style="position:absolute;inset:0;width:100%;height:100%;border:0"
+                allow="autoplay; encrypted-media; fullscreen; picture-in-picture" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>
+      </template>
+    </div>
+    {% endfor %}
+  </div>
+  {% if slides_total > 1 %}
+  <div class="gallery__dots" aria-hidden="true">
+    {% for _ in images %}<span class="gallery__dot" x-bind:aria-current="current === {{ forloop.counter0 }}"></span>{% endfor %}
+    {% for _ in videos %}<span class="gallery__dot" x-bind:aria-current="current === {{ images|length|add:forloop.counter0 }}"></span>{% endfor %}
+  </div>
+  <div class="gallery__thumbs">
+    {% for image in images %}
+    <button class="gallery__thumb" type="button" aria-label="Фото {{ forloop.counter }}"
+            x-on:click="go({{ forloop.counter0 }})" x-bind:aria-current="current === {{ forloop.counter0 }}">
+      <img src="{{ image.image.url }}" alt="" loading="lazy" width="80" height="100">
+    </button>
+    {% endfor %}
+    {% for video in videos %}
+    <button class="gallery__thumb" type="button" aria-label="Видео {{ forloop.counter }}"
+            x-on:click="go({{ images|length|add:forloop.counter0 }})" x-bind:aria-current="current === {{ images|length|add:forloop.counter0 }}">
+      <span class="gallery__video" style="font-size:10px">▶</span>
+    </button>
+    {% endfor %}
+  </div>
+  {% endif %}
+</div>

@@ -10,7 +10,7 @@
       <h1>Вяжем игрушки, которые хочется обнять</h1>
       <p class="hero__lead">Подробные схемы амигуруми с фото каждого шага. Оплачиваете — и PDF сразу приходит на почту.</p>
       <div class="hero__actions">
-        <a class="btn" href="#">Выбрать мастер-класс</a>
+        <a class="btn" href="{% url 'catalog:list' %}">Выбрать мастер-класс</a>
         <a class="btn btn--secondary" href="#how">Как это работает</a>
       </div>
     </div>
@@ -32,31 +32,14 @@
 
 <section class="section">
   <div class="container">
-    <div class="section__head"><h2>Популярные</h2><a class="link" href="#">Все</a></div>
+    <div class="section__head"><h2>Популярные</h2><a class="link" href="{% url 'catalog:list' %}">Все</a></div>
+    {% if products %}
     <ul class="product-grid">
-      {% for product in products %}
-      <li>
-        <article class="card">
-          <a class="card__media" href="#" tabindex="-1" aria-hidden="true">
-            {% if product.badge == 'sale' %}<div class="badges"><span class="badge badge--sale">−30%</span></div>{% endif %}
-            {% if product.badge == 'preorder' %}<div class="badges"><span class="badge badge--preorder">Предзаказ</span></div>{% endif %}
-            {% if product.badge == 'combo' %}<div class="badges"><span class="badge badge--combo">Комбо</span></div>{% endif %}
-            <span class="ph ph--{{ product.color }}"></span>
-          </a>
-          <div class="card__body">
-            <h3 class="card__title"><a href="#">{{ product.title }}</a></h3>
-            <div class="card__footer">
-              <div class="price">
-                <span class="price__current {% if product.badge == 'sale' %}price__current--sale{% endif %}">{{ product.price }} ₽</span>
-                {% if product.old_price %}<span class="price__old">{{ product.old_price }} ₽</span>{% endif %}
-              </div>
-              <button class="btn btn--sm" type="button">В корзину</button>
-            </div>
-          </div>
-        </article>
-      </li>
-      {% endfor %}
+      {% for product in products %}{% include "catalog/_card.html" %}{% endfor %}
     </ul>
+    {% else %}
+    <p class="muted">Мастер-классы скоро появятся.</p>
+    {% endif %}
   </div>
 </section>
 
