@@ -1,4 +1,5 @@
-"""Тонкая обёртка над переменными окруженияения."""
+"""Thin wrapper over environment variables."""
+
 import os
 from typing import Any
 
@@ -34,12 +35,13 @@ class Env:
             return default or []
         return [item.strip() for item in value.split(",") if item.strip()]
 
-    def db_url(self, key: str, default: dict | None = None) -> dict:
-        import dj_database_url  # noqa: F401
+    def db_url(self, key: str, default: str | None = None) -> dict:
+        """Parse a database URL (from env or the given default) into a Django DATABASES entry."""
+        import dj_database_url
 
-        url = self._raw.get(key)
+        url = self._raw.get(key) or default
         if not url:
-            return default or {}
+            return {}
         return dj_database_url.parse(url)
 
 

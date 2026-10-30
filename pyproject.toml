@@ -34,3 +34,4 @@ indent-style = "space"
 DJANGO_SETTINGS_MODULE = "config.settings_test"
 python_files = ["tests.py", "test_*.py", "*_tests.py"]
 addopts = "-ra --strict-markers --tb=short"
+filterwarnings = ["ignore:No directory at:UserWarning"]

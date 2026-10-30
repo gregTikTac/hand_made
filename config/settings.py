@@ -78,7 +78,7 @@ TEMPLATES = [
 WSGI_APPLICATION = "config.wsgi.application"
 
 DATABASES = {
-    "default": env.db_url("DATABASE_URL", default="sqlite:///" + str(BASE_DIR / "db.sqlite3"))
+    "default": env.db_url("DATABASE_URL", default=f"sqlite:///{BASE_DIR / 'db.sqlite3'}"),
 }
 
 REDIS_URL = env("REDIS_URL", default="redis://redis:6379/0")
@@ -110,32 +110,54 @@ USE_TZ = True
 
 STATIC_URL = "static/"
 STATIC_ROOT = BASE_DIR / "staticfiles"
-STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 MEDIA_URL = "media/"
 MEDIA_ROOT = BASE_DIR / "media"
+# Private files (purchased PDFs) are never served directly: only via presigned URLs / views.
+PRIVATE_MEDIA_ROOT = BASE_DIR / "private_media"
 
+# Two storages (see ARCHITECTURE: public bucket for photos, private bucket for PDFs):
+#   "default" — public media (product photos), "private" — PDF files.
 STORAGES = {
     "default": {"BACKEND": "django.core.files.storage.FileSystemStorage"},
-    "staticfiles": {"BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage"},
+    "private": {
+        "BACKEND": "django.core.files.storage.FileSystemStorage",
+        "OPTIONS": {"location": str(PRIVATE_MEDIA_ROOT)},
+    },
+    "staticfiles": {"BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage"},
 }
 
-_STORAGE_BACKEND = env("STORAGE_BACKEND", default="local")
-if _STORAGE_BACKEND == "s3":
-    import boto3  # noqa: F401
-
-    AWS_ACCESS_KEY_ID = env("AWS_ACCESS_KEY_ID")
-    AWS_SECRET_ACCESS_KEY = env("AWS_SECRET_ACCESS_KEY")
-    AWS_STORAGE_BUCKET_NAME = env("AWS_STORAGE_BUCKET_NAME")
-    AWS_S3_REGION_NAME = env("AWS_S3_REGION_NAME", default="ru-central1")
-    AWS_S3_ENDPOINT_URL = env("AWS_S3_ENDPOINT_URL")
-    AWS_S3_CUSTOM_DOMAIN = env("AWS_S3_CUSTOM_DOMAIN", default="")
-    AWS_QUERYSTRING_AUTH = True
-    AWS_S3_SIGNATURE_VERSION = "s3v4"
-    STORAGES["default"]["BACKEND"] = "storages.backends.s3.S3Storage"
-
-PRIVATE_BUCKET_NAME = env("AWS_PRIVATE_BUCKET_NAME", default="")
-PRIVATE_ENDPOINT_URL = env("AWS_PRIVATE_ENDPOINT_URL", default=env("AWS_S3_ENDPOINT_URL", default=""))
+STORAGE_BACKEND = env("STORAGE_BACKEND", default="local")
+if STORAGE_BACKEND == "s3":
+    _s3_common = {
+        "access_key": env("AWS_ACCESS_KEY_ID"),
+        "secret_key": env("AWS_SECRET_ACCESS_KEY"),
+        "region_name": env("AWS_S3_REGION_NAME", default="ru-central1"),
+        "endpoint_url": env("AWS_S3_ENDPOINT_URL"),
+        "signature_version": "s3v4",
+        "file_overwrite": False,
+    }
+    STORAGES["default"] = {
+        "BACKEND": "storages.backends.s3.S3Storage",
+        "OPTIONS": {
+            **_s3_common,
+            "bucket_name": env("AWS_STORAGE_BUCKET_NAME"),
+            "custom_domain": env("AWS_S3_CUSTOM_DOMAIN", default="") or None,
+            "querystring_auth": False,
+            "default_acl": "public-read",
+        },
+    }
+    STORAGES["private"] = {
+        "BACKEND": "storages.backends.s3.S3Storage",
+        "OPTIONS": {
+            **_s3_common,
+            "bucket_name": env("AWS_PRIVATE_BUCKET_NAME"),
+            "endpoint_url": env("AWS_PRIVATE_ENDPOINT_URL") or env("AWS_S3_ENDPOINT_URL"),
+            "querystring_auth": True,
+            "querystring_expire": env.int("PRIVATE_URL_EXPIRE_SECONDS", default=300),
+            "default_acl": "private",
+        },
+    }
 
 DEFAULT_FROM_EMAIL = env("DEFAULT_FROM_EMAIL", default="dev@example.com")
 EMAIL_HOST = env("EMAIL_HOST", default="localhost")
@@ -144,5 +166,10 @@ EMAIL_USE_TLS = env.bool("EMAIL_USE_TLS", default=False)
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-LOGIN_REDIRECT_URL = ADMIN_URL
+LOGIN_REDIRECT_URL = f"/{ADMIN_URL}"
 
+# django-unfold admin theme (ADR-0001)
+UNFOLD = {
+    "SITE_TITLE": SITE_NAME,
+    "SITE_HEADER": f"{SITE_NAME} — админка",
+}

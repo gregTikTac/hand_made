@@ -11,6 +11,8 @@ htmlcov/
 
 # Django
 /media/
+/private_media/
+/test_private_media/
 /staticfiles/
 *.sqlite3
 test_db.sqlite3
