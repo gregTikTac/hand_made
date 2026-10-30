@@ -21,6 +21,12 @@ CSRF_TRUSTED_ORIGINS = env.list("CSRF_TRUSTED_ORIGINS", default=[])
 SITE_NAME = env("SITE_NAME", default="Петелька")
 ADMIN_URL = env("ADMIN_URL", default="admin/")
 
+# Contact links (moved to SiteSettings in stage 7). Empty value = link is hidden.
+SUPPORT_URL = env("SUPPORT_URL", default="")
+VK_URL = env("VK_URL", default="")
+TELEGRAM_URL = env("TELEGRAM_URL", default="")
+INSTAGRAM_URL = env("INSTAGRAM_URL", default="")
+
 INSTALLED_APPS = [
     "unfold",
     "unfold.contrib.filters",

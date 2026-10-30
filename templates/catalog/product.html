@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+{% load shop %}
+
+{% block title %}{{ product.seo_title|default:product.title }} — {{ SITE_NAME }}{% endblock %}
+
+{% block meta %}
+<meta name="description" content="{{ product.seo_description|default:product.card_description|truncatechars:160 }}">
+<link rel="canonical" href="{{ request.scheme }}://{{ request.get_host }}{{ product.get_absolute_url }}">
+<meta property="og:type" content="product">
+<meta property="og:title" content="{{ product.seo_title|default:product.title }}">
+<meta property="og:description" content="{{ product.seo_description|default:product.card_description|truncatechars:160 }}">
+{% if product.cover %}<meta property="og:image" content="{{ request.scheme }}://{{ request.get_host }}{{ product.cover.image.url }}">{% endif %}
+{% if is_preview %}<meta name="robots" content="noindex">{% endif %}
+{% endblock %}
+
+{% block body_class %}page page--product{% endblock %}
+
+{% block content %}
+<div class="container">
+  {% if is_preview %}
+    <div class="alert alert--info" role="status">Предпросмотр: мастер-класс не опубликован, покупатели его не видят.</div>
+  {% endif %}
+  <nav class="breadcrumbs" aria-label="Хлебные крошки">
+    <a href="{% url 'home' %}">Главная</a><span aria-hidden="true">/</span><a href="{% url 'catalog:list' %}">Мастер-классы</a><span aria-hidden="true">/</span><span>{{ product.title }}</span>
+  </nav>
+
+  <div class="product">
+    {% include "catalog/_gallery.html" %}
+
+    <div class="product__info">
+      <h1 class="product__title h2">{{ product.title }}</h1>
+      <div class="product__format">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M14 3H6v18h12V7z"/><path d="M14 3v4h4"/></svg>
+        PDF-схема{% if product.height_cm %} · высота {{ product.height_cm }} см{% endif %}{% if product.length_cm %} · длина {{ product.length_cm }} см{% endif %}
+      </div>
+
+      <div class="product__buy">
+        <div class="price price--lg">
+          <span class="price__current{% if product.price.has_discount %} price__current--sale{% endif %}">{{ product.price.final|rub }}</span>
+          {% if product.price.old %}<span class="price__old">{{ product.price.old|rub }}</span>{% endif %}
+          {% if product.price.is_sale %}<span class="badge badge--sale">−{{ product.price.discount_percent }}%</span>{% endif %}
+        </div>
+        {# Wired to the cart in stage 3 (data-product-id is the hook). #}
+        <button class="btn btn--block" type="button" data-product-id="{{ product.pk }}">Добавить в корзину</button>
+      </div>
+
+      {% if product.description %}
+      <h2 class="h3">О мастер-классе</h2>
+      {{ product.description|linebreaks }}
+      {% endif %}
+      <ul class="features">
+        {% if product.construction %}<li>{{ product.construction|capfirst }}</li>{% endif %}
+        {% if product.clothing_included %}<li>В мастер-класс входит описание одежды</li>{% endif %}
+        {% if product.videos_count %}<li>Видео сложных моментов: {{ product.videos_count }}</li>{% endif %}
+        <li>Моя поддержка на любом этапе вязания</li>
+        <li>Ссылка на файл приходит на email сразу после оплаты</li>
+      </ul>
+
+      {% if CONTACT_LINKS %}
+      <h2 class="h3">Остались вопросы?</h2>
+      <div class="socials" style="margin-bottom:var(--space-6)">
+        {% for link in CONTACT_LINKS %}
+        <a class="social" href="{{ link.url }}"{% if link.external %} rel="noopener noreferrer" target="_blank"{% endif %}>{{ link.title }}</a>
+        {% endfor %}
+      </div>
+      {% endif %}
+    </div>
+  </div>
+
+  {% if product.materials_image %}
+  <section class="materials">
+    <h2>Необходимые материалы</h2>
+    <a class="materials__photo" href="{{ product.materials_image.url }}" target="_blank" rel="noopener" style="display:block">
+      {% materials_picture product "(min-width: 1024px) 960px, 100vw" %}
+    </a>
+  </section>
+  {% endif %}
+</div>
+
+<div class="sticky-buy">
+  <div class="price">
+    <span class="price__current{% if product.price.has_discount %} price__current--sale{% endif %}">{{ product.price.final|rub }}</span>
+    {% if product.price.old %}<span class="price__old">{{ product.price.old|rub }}</span>{% endif %}
+  </div>
+  <button class="btn" type="button" data-product-id="{{ product.pk }}">В корзину</button>
+</div>
+{% endblock %}

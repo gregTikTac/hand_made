@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block title %}{% if combo_only %}Комбо{% else %}Мастер-классы{% endif %} — {{ SITE_NAME }}{% endblock %}
+
+{% block meta %}
+<meta name="description" content="PDF-мастер-классы по вязанию игрушек амигуруми: схемы с фото каждого шага, доставка на почту сразу после оплаты.">
+<link rel="canonical" href="{{ request.scheme }}://{{ request.get_host }}{{ request.path }}{% if page.number > 1 %}?page={{ page.number }}{% endif %}">
+{% endblock %}
+
+{% block content %}
+<div class="container">
+  <nav class="breadcrumbs" aria-label="Хлебные крошки">
+    <a href="{% url 'home' %}">Главная</a><span aria-hidden="true">/</span><span>{% if combo_only %}Комбо{% else %}Мастер-классы{% endif %}</span>
+  </nav>
+  <h1 class="h2">{% if combo_only %}Комбо{% else %}Мастер-классы{% endif %}</h1>
+
+  <nav class="tabs" aria-label="Категории">
+    <a class="tab" href="{% url 'catalog:list' %}" {% if not combo_only %}aria-current="page"{% endif %}>Все <span class="tab__count">{{ counts.all }}</span></a>
+    <a class="tab" href="{% url 'catalog:combo' %}" {% if combo_only %}aria-current="page"{% endif %}>Комбо <span class="tab__count">{{ counts.combo }}</span></a>
+  </nav>
+
+  {% if products %}
+    <ul class="product-grid" id="product-grid">
+      {% for product in products %}{% include "catalog/_card.html" %}{% endfor %}
+    </ul>
+    {% include "catalog/_more.html" %}
+  {% else %}
+    <div class="empty">
+      <p class="h3">Здесь пока пусто</p>
+      <p class="muted">Загляните позже или посмотрите все мастер-классы.</p>
+      <a class="btn btn--secondary" href="{% url 'catalog:list' %}">Все мастер-классы</a>
+    </div>
+  {% endif %}
+</div>
+{% endblock %}
