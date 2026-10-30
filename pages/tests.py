@@ -1,4 +1,5 @@
 """Smoke tests for static pages."""
+
 from django.test import TestCase
 from django.urls import reverse
 

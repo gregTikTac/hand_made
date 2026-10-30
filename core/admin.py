@@ -1,12 +1,5 @@
-"""Unfold admin site configuration."""
-from unfold.sites import UnfoldAdminSite
+"""Admin configuration.
 
-
-class KnittingAdminSite(UnfoldAdminSite):
-    site_title = "Петелька"
-    site_header = "Петелька — админка"
-    index_title = "Добро пожаловать"
-
-
-admin_site = KnittingAdminSite(name="knitting_admin")
-
+The admin theme (django-unfold) is configured through the UNFOLD dict in config/settings.py;
+the default `admin.site` is used, so model admins from all apps are registered automatically.
+"""

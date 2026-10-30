@@ -1,6 +1,6 @@
 # ADR-0001: Стек — Django + admin + HTMX/Alpine + Tailwind
 
-- Статус: proposed
+- Статус: accepted (часть про Tailwind уточнена ADR-0005: используется кастомный CSS на токенах)
 - Дата: 2026-10-29
 
 ## Контекст

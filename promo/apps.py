@@ -5,4 +5,3 @@ class PromoConfig(AppConfig):
     default_auto_field = "django.db.models.BigAutoField"
     name = "promo"
     verbose_name = "Акции и предзаказы"
-

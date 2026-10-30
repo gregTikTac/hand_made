@@ -32,15 +32,15 @@
 
 ## Этап 1. Каркас
 **Цель:** пустой сайт с админкой, запускаемый одной командой.
-- [ ] Django-проект, приложения `core`, `catalog`, `orders`, `payments`, `delivery`, `promo`, `pages`
-- [ ] Docker Compose: web, db, redis, worker, beat, mailpit; `.env.example`; Makefile
-- [ ] ruff, pytest-django, pre-commit; CI (lint + tests)
-- [ ] Django admin + тема; суперпользователь через команду
-- [ ] Базовый шаблон, Tailwind (standalone CLI), токены, шапка, нижняя мобильная навигация, футер-заглушка
-- [ ] Хранилища public/private (dev — MinIO или локальная FS)
-- [ ] Staging на VPS
+- [x] Django-проект, приложения `core`, `catalog`, `orders`, `payments`, `delivery`, `promo`, `pages`
+- [x] Docker Compose: web, db, redis, worker, beat, mailpit; `.env.example`; Makefile
+- [x] ruff, pytest-django, pre-commit; CI (lint + tests) — GitHub Actions (`.github/workflows/ci.yml`), прогон будет после первого push
+- [x] Django admin + тема (unfold); суперпользователь через команду (`make superuser` / `make superuser-env`)
+- [x] Базовый шаблон, токены, шапка, нижняя мобильная навигация, футер-заглушка (вместо Tailwind — кастомный CSS на токенах, ADR-0005)
+- [x] Хранилища public/private (dev — локальная FS, prod — два S3-бакета, `STORAGES["default"|"private"]`)
+- [ ] Staging на VPS (перенесено в этап 9: нужен VPS и домен — вопросы 6, 20 в `client-questions.md`)
 
-**DoD:** `make up` поднимает стек; `/admin/` работает; CI зелёный; заглушка в дизайне открывается на staging.
+**DoD:** `make up` поднимает стек; `/admin/` работает; CI зелёный; заглушка в дизайне открывается на staging. _Статус: всё выполнено, кроме staging; CI проверится после push в GitHub._
 
 ## Этап 2. Каталог
 - [ ] Модели Product, ProductImage, ProductVideo, Category (миграции, индексы, ограничения)

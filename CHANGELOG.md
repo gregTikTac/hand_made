@@ -4,6 +4,29 @@
 
 ## [Unreleased]
 
+## [v0.1] — Stage 1: Каркас
+### Added
+- Django 5.1 проект `config` и приложения `core`, `catalog`, `orders`, `payments`, `delivery`, `promo`, `pages`.
+- Docker Compose: web, worker, beat, db (PostgreSQL 16), redis (7), mailpit; healthcheck у web; `.env.example`; Makefile (`up`, `test`, `lint`, `superuser`, `superuser-env` и др.).
+- Админка на django-unfold, настройка через `UNFOLD` в settings.
+- Базовые шаблоны (шапка, нижняя навигация, футер-заглушка), главная-заглушка в дизайне этапа 0.
+- Два хранилища: `default` (публичное, фото) и `private` (PDF); локальная FS в dev, S3 в prod (`STORAGE_BACKEND=s3`).
+- CI (GitHub Actions: ruff, `manage.py check`, проверка миграций, pytest) и `.pre-commit-config.yaml`.
+- Тесты каркаса: `Env`, хранилища, админка.
+- ADR-0005: кастомный CSS на токенах вместо Tailwind.
+
+### Changed
+- ADR-0001 принят (с уточнением по Tailwind); обновлён ARCHITECTURE.
+- Код отформатирован `ruff format`.
+
+### Fixed
+- `Env.db_url` не принимал строку по умолчанию (падал `manage.py check` без `DATABASE_URL`).
+- `beat` падал на чистой БД: теперь стартует после healthy `web` (миграции применены).
+- Удалены неиспользуемые Tailwind-бинарник из Dockerfile и цель `make tailwind`; удалён неработающий `KnittingAdminSite`.
+
+### Не вошло
+- Staging на VPS — перенесён в этап 9 (нужны VPS и домен).
+
 ## [v0.0] — Stage 0: Дизайн-система и макеты
 ### Added
 - `docs/design/` : tokens.css, components.css, 4 HTML-макета + страница компонентов.

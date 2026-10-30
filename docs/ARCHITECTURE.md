@@ -22,7 +22,7 @@
 
 **Решение: вариант A** (см. `adr/0001-stack.md`).
 - Django 5.x, PostgreSQL 16, Redis 7, Celery + celery-beat (письма, рассылка предзаказов, расписание акций).
-- Шаблоны Django + HTMX (корзина без перезагрузки) + Alpine.js (галерея, табы) + Tailwind (standalone CLI).
+- Шаблоны Django + HTMX (корзина без перезагрузки) + Alpine.js (галерея, табы) + кастомный CSS на дизайн-токенах (вместо Tailwind, см. `adr/0005-css-without-tailwind.md`).
 - Админка: Django admin + тема django-unfold [проверить актуальность] + django-import-export (CSV).
 - Изображения: генерация webp в нескольких размерах (django-imagekit или sorl-thumbnail).
 - Хранилище: django-storages (S3-совместимое): публичный бакет для фото, **приватный** для PDF.
@@ -202,7 +202,7 @@ created ──pay──▶ pending ──webhook succeeded──▶ paid ──f
 - Изображения: webp + jpeg fallback, `srcset` (360/720/1080), `loading="lazy"`, явные width/height (без CLS).
 - CDN перед публичным бакетом фото.
 - Кэш: фрагменты каталога в Redis, инвалидация по сохранению Product/Campaign; цены не кэшируем дольше 1 мин (акции по времени).
-- Статика: WhiteNoise + `ManifestStaticFilesStorage`; Tailwind purge → ~15–30 КБ CSS.
+- Статика: WhiteNoise + `ManifestStaticFilesStorage`; CSS на токенах — небольшой объём, сжатие gzip/brotli.
 - Цель: LCP < 2,5 с на 4G, Lighthouse mobile ≥ 90.
 
 ## 11. SEO

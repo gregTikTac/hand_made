@@ -40,6 +40,13 @@ services:
         condition: service_healthy
       redis:
         condition: service_healthy
+    # healthy only after migrations are applied and the server answers
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/')"]
+      interval: 5s
+      timeout: 5s
+      retries: 30
+      start_period: 10s
 
   worker:
     build: .
@@ -63,6 +70,8 @@ services:
       - /app/.venv
     depends_on:
       redis:
+        condition: service_healthy
+      web:
         condition: service_healthy
 
   mailpit:

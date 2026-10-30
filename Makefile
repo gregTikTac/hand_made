@@ -1,4 +1,4 @@
-.PHONY: up down build migrate shell test lint fmt collect static
+.PHONY: up down build migrate shell superuser superuser-env test lint fmt static
 
 up:
 	docker compose up -d
@@ -15,20 +15,22 @@ migrate:
 shell:
 	docker compose run --rm web python manage.py shell
 
+# Interactive superuser creation
 superuser:
 	docker compose run --rm web python manage.py createsuperuser
+
+# Non-interactive: needs DJANGO_SUPERUSER_USERNAME / _EMAIL / _PASSWORD in .env
+superuser-env:
+	docker compose run --rm web python manage.py createsuperuser --noinput
 
 test:
 	docker compose run --rm web pytest
 
 lint:
-	ruff check .
+	docker compose run --rm web sh -c "ruff check . && ruff format --check ."
 
 fmt:
-	ruff format .
+	docker compose run --rm web ruff format .
 
 static:
 	docker compose run --rm web python manage.py collectstatic --noinput
-
-tailwind:
-	docker compose run --rm web python manage.py tailwind_build
