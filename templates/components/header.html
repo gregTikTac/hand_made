@@ -1,6 +1,6 @@
 <header class="header">
   <div class="container header__inner">
-    <a class="logo" href="{% url 'home' %}">{{ SITE_NAME }}<span>.</span></a>
+    <a class="logo" href="{% url 'home' %}">{% include "components/wordmark.html" %}</a>
     <nav class="header__nav" aria-label="Основная навигация">
       <a href="{% url 'home' %}" {% if request.path == '/' %}aria-current="page"{% endif %}>Главная</a>
       <a href="{% url 'catalog:list' %}" {% if request.path == '/catalog/' or request.path == '/catalog/combo/' or '/p/' in request.path %}aria-current="page"{% endif %}>Мастер-классы</a>

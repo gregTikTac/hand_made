@@ -11,11 +11,13 @@
 | `docs/ARCHITECTURE.md` | Архитектура (черновик, сверить с Opus по промту 1) |
 | `docs/ROADMAP.md` | Этапы, задачи, DoD, оценки |
 | `docs/adr/` | Архитектурные решения |
-| `docs/client-questions.md` | Вопросы заказчице |
+| `docs/client-questions.md` | Вопросы заказчице (актуальные после этапа 2) |
+| `docs/brief/how-to-hand-over.md` | Как заказчице передать фото, PDF и описания |
+| `docs/progress/stage-conclusions.md` | Выводы по этапам |
 | `.clinerules` | Правила проекта для ИИ-ассистентов |
 
 ## Статус
-Этапы 0 (дизайн), 1 (каркас) и 2 (каталог) завершены, следующий — этап 3 (корзина и чекаут). Подробности: `docs/ROADMAP.md`, `CHANGELOG.md`.
+Этапы 0 (дизайн), 1 (каркас) и 2 (каталог) завершены, следующий — этап 3 (корзина и чекаут). Выводы: `docs/progress/stage-conclusions.md`. Подробности: `docs/ROADMAP.md`, `CHANGELOG.md`.
 
 ## Быстрый старт
 ```bash
@@ -30,7 +32,7 @@ make superuser              # создать администратора
 | `make test` | pytest в контейнере |
 | `make lint` / `make fmt` | ruff check + format / автоформат |
 | `make migrate` | применить миграции |
-| `docker compose run --rm web python manage.py seed_demo` | 84 демо-товара (только DEBUG) |
+| `docker compose run --rm web python manage.py seed_demo` | 84 демо-товара (только DEBUG); у 4 образцов фото из `demo_pix/` |
 | `... manage.py import_media --source <папка>` | фото/PDF из `<папка>/<slug>/` |
 
 Установка pre-commit: `pip install pre-commit && pre-commit install`.

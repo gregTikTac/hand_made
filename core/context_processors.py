@@ -10,7 +10,7 @@ def site_settings(request):
     only links that are set are shown.
     """
     return {
-        "SITE_NAME": getattr(settings, "SITE_NAME", "Петелька"),
+        "SITE_NAME": getattr(settings, "SITE_NAME", "Baloo Hand"),
         "ADMIN_URL": getattr(settings, "ADMIN_URL", "admin/"),
         "CONTACT_LINKS": [
             {"title": title, "url": url, "external": external}

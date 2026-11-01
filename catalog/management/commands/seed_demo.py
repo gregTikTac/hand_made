@@ -1,16 +1,21 @@
 """Fill the database with demo products (dev/staging only) — DoD: 80+ products on dev.
 
 * First four products come from ``docs/brief/sample-products.csv`` (real titles/prices).
-* The rest are generated (~every 9th is a combo). Photos are generated placeholders (Pillow).
-* Idempotent: products are matched by slug; existing ones are left untouched.
+* Their galleries come from ``demo_pix/`` (client photos named in the CSV). If that folder
+  is missing, those products get the same generated placeholders as the rest.
+* The rest are generated (~every 9th is a combo).
+* Idempotent: products are matched by slug. Sample galleries are replaced only when the
+  attached file names differ from ``demo_pix``.
 """
 
 import csv
 import random
+import re
 from io import BytesIO
 from pathlib import Path
 
 from django.conf import settings
+from django.core.files import File
 from django.core.files.base import ContentFile
 from django.core.management.base import BaseCommand, CommandError
 from PIL import Image, ImageDraw
@@ -18,6 +23,8 @@ from PIL import Image, ImageDraw
 from catalog.models import Category, Product, ProductImage, ProductVideo
 
 SAMPLE_CSV = Path(settings.BASE_DIR) / "docs" / "brief" / "sample-products.csv"
+DEMO_PIX = Path(settings.BASE_DIR) / "demo_pix"
+IMAGE_SUFFIXES = {".jpg", ".jpeg", ".png", ".webp"}
 PDF_BYTES = b"%PDF-1.4\n1 0 obj<</Type/Catalog>>endobj\ntrailer<</Root 1 0 R>>\n%%EOF\n"
 ANIMALS = ["Зайка", "Мишка", "Слонёнок", "Котёнок", "Пёсик", "Ёжик", "Совушка", "Единорог", "Панда"]
 PALETTES = [
@@ -31,6 +38,47 @@ VIDEO_URLS = [
     "https://rutube.ru/video/0123456789abcdef0123456789abcdef/",
     "https://vk.com/video-12345_67890",
 ]
+
+
+def _natural_key(path: Path):
+    """Sort photo_2 before photo_10."""
+    return [int(part) if part.isdigit() else part.lower() for part in re.split(r"(\d+)", path.name)]
+
+
+def gallery_files(row: dict) -> list[Path] | None:
+    """Photos for a sample-CSV row: ``cover_photo`` plus the next ``photo_count - 1`` files.
+
+    Paths in the CSV are relative to ``demo_pix/`` (the Telegram export root). Thumbnails
+    (``*_thumb.jpg``) are skipped.
+    """
+    cover = (row.get("cover_photo") or "").strip()
+    raw_count = (row.get("photo_count") or "").strip()
+    if not cover or not raw_count:
+        return None
+    try:
+        count = int(raw_count)
+    except ValueError:
+        return None
+    if count < 1:
+        return None
+    cover_path = (DEMO_PIX / cover).resolve()
+    photos_dir = cover_path.parent
+    if not cover_path.is_file() or not photos_dir.is_dir():
+        return None
+    files = sorted(
+        (
+            path
+            for path in photos_dir.iterdir()
+            if path.suffix.lower() in IMAGE_SUFFIXES and not path.stem.endswith("_thumb")
+        ),
+        key=_natural_key,
+    )
+    try:
+        start = next(index for index, path in enumerate(files) if path.resolve() == cover_path)
+    except StopIteration:
+        return None
+    chosen = files[start : start + count]
+    return chosen if len(chosen) == count else None
 
 
 def placeholder(title: str, palette, size=(900, 1125)) -> bytes:
@@ -52,7 +100,7 @@ def placeholder(title: str, palette, size=(900, 1125)) -> bytes:
 
 
 class Command(BaseCommand):
-    help = "Создать демо-товары (по умолчанию 84) с картинками-заглушками и PDF."
+    help = "Создать демо-товары (по умолчанию 84). У образцов из CSV — фото из demo_pix."
 
     def add_arguments(self, parser):
         parser.add_argument("--count", type=int, default=84, help="Сколько товаров всего")
@@ -70,13 +118,20 @@ class Command(BaseCommand):
             slug="dlya-nachinayushchikh", defaults={"title": "Для начинающих", "position": 1}
         )
         created = 0
+        photos = 0
         for index, row in enumerate(self._rows(count, rng)):
-            if Product.objects.filter(slug=row["slug"]).exists():
-                continue
-            self._create(index, row, rng)
-            created += 1
+            product = Product.objects.filter(slug=row["slug"]).first()
+            if product is None:
+                product = self._create(index, row, rng)
+                created += 1
+            if self._attach_gallery(product, row, index, rng):
+                photos += 1
+            self._feature_sample(product, row, index)
         self.stdout.write(
-            self.style.SUCCESS(f"Создано: {created}. Всего товаров: {Product.objects.count()}.")
+            self.style.SUCCESS(
+                f"Создано: {created}. Галерей обновлено: {photos}. "
+                f"Всего товаров: {Product.objects.count()}."
+            )
         )
 
     def _rows(self, count, rng):
@@ -118,16 +173,54 @@ class Command(BaseCommand):
             description=row.get("description", ""),
             status=Product.Status.PUBLISHED,
             sort_order=index,
-            popularity=rng.randint(0, 1000),
+            popularity=self._popularity(row, index, rng),
         )
         product.pdf_file.save("demo.pdf", ContentFile(PDF_BYTES), save=False)
         product.save()
         if rng.random() < 0.3:
             product.categories.add(self.beginner)
+        if index % 3 == 0:
+            ProductVideo.objects.create(product=product, url=VIDEO_URLS[index % len(VIDEO_URLS)])
+        return product
 
+    def _popularity(self, row, index, rng) -> int:
+        """Sample products with real photos lead the home page."""
+        if (row.get("cover_photo") or "").strip():
+            return 10_000 - index
+        return rng.randint(0, 1000)
+
+    def _feature_sample(self, product, row, index):
+        if not (row.get("cover_photo") or "").strip():
+            return
+        popularity = 10_000 - index
+        if product.popularity != popularity:
+            product.popularity = popularity
+            product.save(update_fields=["popularity"])
+
+    def _attach_gallery(self, product, row, index, rng) -> bool:
+        """Attach real photos, or placeholders when the product has none. Return True if written."""
+        photos = gallery_files(row)
+        if photos:
+            expected = [path.name for path in photos]
+            current = list(product.images.order_by("position", "id").values_list("alt", flat=True))
+            if current == expected:
+                return False
+            product.images.all().delete()
+            for position, path in enumerate(photos):
+                with path.open("rb") as handle:
+                    ProductImage(
+                        product=product,
+                        position=position,
+                        is_cover=position == 0,
+                        alt=path.name,
+                        image=File(handle, name=path.name),
+                    ).save()
+            return True
+        if product.images.exists():
+            return False
         palette = PALETTES[index % len(PALETTES)]
         for position in range(rng.randint(2, 5)):
-            shade = tuple(min(255, c + position * 6) for c in palette[0])
+            shade = tuple(min(255, channel + position * 6) for channel in palette[0])
             ProductImage(
                 product=product,
                 position=position,
@@ -138,5 +231,4 @@ class Command(BaseCommand):
                     name=f"demo-{product.slug}-{position}.jpg",
                 ),
             ).save()
-        if index % 3 == 0:
-            ProductVideo.objects.create(product=product, url=VIDEO_URLS[index % len(VIDEO_URLS)])
+        return True

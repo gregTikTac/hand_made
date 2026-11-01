@@ -1,6 +1,7 @@
 """Management commands: seed_demo and import_media."""
 
 from io import StringIO
+from pathlib import Path
 
 import pytest
 from django.core.files.storage import storages
@@ -44,6 +45,25 @@ class TestSeedDemo:
         run("seed_demo", count=5)
         assert Product.objects.get(slug="lisichka").base_price == 45000
         assert Product.objects.get(slug="plyushevye-kopytca").is_combo is True
+
+    def test_sample_products_use_demo_pix(self, settings):
+        cover = Path(settings.BASE_DIR) / "demo_pix" / "photos" / "photo_1@29-10-2026_16-55-04.jpg"
+        if not cover.is_file():
+            pytest.skip("demo_pix is not in the workspace")
+        settings.DEBUG = True
+        run("seed_demo", count=4)
+        lisichka = Product.objects.get(slug="lisichka")
+        names = list(lisichka.images.order_by("position").values_list("alt", flat=True))
+        assert names[0] == "photo_1@29-10-2026_16-55-04.jpg"
+        assert len(names) == 7
+        assert lisichka.images.get(is_cover=True).alt == names[0]
+        sheep = Product.objects.get(slug="zabavnye-ovechki")
+        assert sheep.images.count() == 9
+        assert Product.objects.get(slug="kozlyonok-borya").images.count() == 7
+        assert Product.objects.get(slug="plyushevye-kopytca").images.count() == 10
+        output = run("seed_demo", count=4)
+        assert "Галерей обновлено: 0" in output
+        assert lisichka.images.count() == 7
 
     def test_refuses_to_run_without_debug(self, settings):
         settings.DEBUG = False

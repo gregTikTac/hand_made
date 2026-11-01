@@ -18,7 +18,7 @@ DEBUG = env.bool("DEBUG", default=False)
 ALLOWED_HOSTS = env.list("ALLOWED_HOSTS", default=[])
 CSRF_TRUSTED_ORIGINS = env.list("CSRF_TRUSTED_ORIGINS", default=[])
 
-SITE_NAME = env("SITE_NAME", default="Петелька")
+SITE_NAME = env("SITE_NAME", default="Baloo Hand")
 ADMIN_URL = env("ADMIN_URL", default="admin/")
 
 # Contact links (moved to SiteSettings in stage 7). Empty value = link is hidden.

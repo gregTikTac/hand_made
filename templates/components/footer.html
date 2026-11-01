@@ -2,7 +2,7 @@
   <div class="container">
     <div class="footer__grid">
       <div>
-        <a class="logo" href="{% url 'home' %}">{{ SITE_NAME }}<span>.</span></a>
+        <a class="logo" href="{% url 'home' %}">{% include "components/wordmark.html" %}</a>
         <p class="muted" style="margin-top:var(--space-3)">PDF-мастер-классы по вязанию игрушек.</p>
         <div class="socials">
           <a class="social" href="#" rel="noopener">VK</a>
