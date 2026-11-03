@@ -40,8 +40,7 @@
           {% if product.price.old %}<span class="price__old">{{ product.price.old|rub }}</span>{% endif %}
           {% if product.price.is_sale %}<span class="badge badge--sale">−{{ product.price.discount_percent }}%</span>{% endif %}
         </div>
-        {# Wired to the cart in stage 3 (data-product-id is the hook). #}
-        <button class="btn btn--block" type="button" data-product-id="{{ product.pk }}">Добавить в корзину</button>
+        {% include "orders/_add_button.html" with product=product css="btn btn--block" label="Добавить в корзину" %}
       </div>
 
       {% if product.description %}
@@ -82,6 +81,6 @@
     <span class="price__current{% if product.price.has_discount %} price__current--sale{% endif %}">{{ product.price.final|rub }}</span>
     {% if product.price.old %}<span class="price__old">{{ product.price.old|rub }}</span>{% endif %}
   </div>
-  <button class="btn" type="button" data-product-id="{{ product.pk }}">В корзину</button>
+  {% include "orders/_add_button.html" with product=product css="btn" label="В корзину" %}
 </div>
 {% endblock %}

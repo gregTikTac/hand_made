@@ -1,0 +1,84 @@
+{% load shop %}
+<div id="cart-root">
+  {% if price_changed %}
+  <div class="alert alert--info" role="status">Цена обновилась. Проверьте итог и нажмите «Перейти к оплате» ещё раз.</div>
+  {% endif %}
+  {% if rate_limited %}
+  <div class="alert alert--error" role="alert">Слишком много попыток. Подождите минуту и попробуйте снова.</div>
+  {% endif %}
+  {% if not summary.lines %}
+  <div class="empty panel">
+    <svg class="empty__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true"><path d="M5 8h14l-1 12H6L5 8z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg>
+    <h2 class="h3">В корзине пока пусто</h2>
+    <p class="muted">Загляните в каталог — там больше 80 мастер-классов.</p>
+    <a class="btn" href="{% url 'catalog:list' %}">Перейти в каталог</a>
+  </div>
+  {% else %}
+  <div class="checkout">
+    <div>
+      <ul class="cart-list">
+        {% for line in summary.lines %}
+        <li class="cart-item">
+          <a class="cart-item__img" href="{{ line.product.get_absolute_url }}">
+            {% if line.product.cover %}
+              {% picture line.product.cover "72px" alt="" %}
+            {% endif %}
+          </a>
+          <div>
+            <p class="cart-item__title">{{ line.product.title }}</p>
+            <div class="price">
+              <span class="price__current{% if line.price.has_discount %} price__current--sale{% endif %}">{{ line.price.final|rub }}</span>
+              {% if line.price.old %}<span class="price__old">{{ line.price.old|rub }}</span>{% endif %}
+            </div>
+          </div>
+          <button class="icon-btn" type="button" aria-label="Удалить «{{ line.product.title }}»"
+                  hx-post="{% url 'orders:remove' line.product.pk %}" hx-target="#cart-root" hx-swap="outerHTML">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+          </button>
+        </li>
+        {% endfor %}
+      </ul>
+
+      <form id="checkout-form" class="panel" style="margin-top:var(--space-6)" method="post" action="{% url 'orders:checkout' %}" novalidate>
+        {% csrf_token %}
+        <input type="hidden" name="seen" value="{{ seen_token }}">
+        <h2 class="h3">Куда отправить PDF</h2>
+        {% if form.non_field_errors %}
+        <div class="alert alert--error" role="alert">{{ form.non_field_errors|striptags }}</div>
+        {% endif %}
+        <div class="field{% if form.email.errors %} field--error{% endif %}">
+          <label class="field__label" for="{{ form.email.id_for_label }}">Email</label>
+          {{ form.email }}
+          {% for error in form.email.errors %}<span class="field__error">{{ error }}</span>{% endfor %}
+          <span class="field__hint">Регистрация не нужна. Ссылка на файлы придёт на этот адрес.</span>
+        </div>
+        <div class="field{% if form.email_confirm.errors %} field--error{% endif %}">
+          <label class="field__label" for="{{ form.email_confirm.id_for_label }}">Повторите email</label>
+          {{ form.email_confirm }}
+          {% for error in form.email_confirm.errors %}<span class="field__error">{{ error }}</span>{% endfor %}
+        </div>
+        <label class="checkbox{% if form.consent.errors %} checkbox--error{% endif %}">
+          {{ form.consent }}
+          <span>Принимаю <a class="link" href="#">оферту</a> и даю <a class="link" href="#">согласие на обработку персональных данных</a>
+            {% if form.consent.errors %}<span>— обязательно</span>{% endif %}
+          </span>
+        </label>
+      </form>
+    </div>
+
+    <aside class="checkout__summary">
+      <div class="panel">
+        <h2 class="h3">Итого</h2>
+        <div class="summary-row"><span>{{ summary.count }} шт.</span><span>{{ summary.subtotal|rub }}</span></div>
+        {% if summary.discount %}
+        <div class="summary-row summary-row--discount"><span>Скидка</span><span>−{{ summary.discount|rub }}</span></div>
+        {% endif %}
+        <div class="summary-row summary-row--total"><span>К оплате</span><span>{{ summary.total|rub }}</span></div>
+        <button class="btn btn--block" type="submit" form="checkout-form" style="margin-top:var(--space-4)">Перейти к оплате</button>
+        <p class="secure-note">Оплата картой или СБП · Чек придёт на email</p>
+      </div>
+    </aside>
+  </div>
+  {% endif %}
+</div>
+{% if oob %}{% include "orders/_counters_oob.html" %}{% endif %}

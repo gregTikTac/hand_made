@@ -11,6 +11,7 @@ urlpatterns = [
     path(settings.ADMIN_URL, admin.site.urls),
     path("", views.home, name="home"),
     path("", include("catalog.urls")),
+    path("", include("orders.urls")),
 ]
 
 if settings.DEBUG:

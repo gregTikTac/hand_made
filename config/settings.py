@@ -18,7 +18,8 @@ DEBUG = env.bool("DEBUG", default=False)
 ALLOWED_HOSTS = env.list("ALLOWED_HOSTS", default=[])
 CSRF_TRUSTED_ORIGINS = env.list("CSRF_TRUSTED_ORIGINS", default=[])
 
-SITE_NAME = env("SITE_NAME", default="Baloo Hand")
+SITE_NAME = env("SITE_NAME", default="Екатерина Зуева")
+LEGAL_NAME = env("LEGAL_NAME", default="Зуева Екатерина Юрьевна")
 ADMIN_URL = env("ADMIN_URL", default="admin/")
 
 # Contact links (moved to SiteSettings in stage 7). Empty value = link is hidden.
@@ -77,6 +78,7 @@ TEMPLATES = [
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
                 "core.context_processors.site_settings",
+                "orders.context_processors.cart",
             ],
         },
     },

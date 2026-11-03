@@ -1,0 +1,6 @@
+{% if product.pk in cart_ids %}
+<a class="{{ css }}" href="{% url 'orders:cart' %}">В корзине</a>
+{% else %}
+<button class="{{ css }}" type="button" data-product-id="{{ product.pk }}"
+        hx-post="{% url 'orders:add' product.pk %}" hx-swap="outerHTML" hx-vals='{"css": "{{ css }}"}'>{{ label }}</button>
+{% endif %}

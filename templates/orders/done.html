@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% load shop %}
+
+{% block title %}Заказ {{ order.number }} — {{ SITE_NAME }}{% endblock %}
+
+{% block content %}
+<div class="container" style="padding-bottom:var(--space-16)">
+  <nav class="breadcrumbs" aria-label="Хлебные крошки"><a href="{% url 'home' %}">Главная</a><span aria-hidden="true">/</span><span>Заказ</span></nav>
+  <div class="panel" style="max-width:36rem">
+    <h1 class="h2">Заказ {{ order.number }} создан</h1>
+    <p>Мы сохранили его для {{ order.email }}. К оплате {{ order.total|rub }}.</p>
+    <p class="muted">Оплата картой и письмо со ссылкой на PDF подключаются следующим шагом. Сейчас заказ ждёт оплаты, деньги не списываются.</p>
+    <a class="btn" href="{% url 'catalog:list' %}">Вернуться в каталог</a>
+  </div>
+</div>
+{% endblock %}

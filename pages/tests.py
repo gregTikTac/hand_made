@@ -28,11 +28,12 @@ class HomePageTestCase(TestCase):
         response = self.client.get(reverse("home"))
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "PDF-мастер-классы")
-        self.assertContains(response, "Baloo Hand")
-        self.assertContains(response, "<em>Hand</em>")
+        self.assertContains(response, "Екатерина Зуева")
+        self.assertContains(response, "<em>Зуева</em>")
+        self.assertContains(response, "Зуева Екатерина Юрьевна")
         self.assertContains(response, 'id="intro"')
         self.assertNotContains(response, "Петелька")
-        self.assertNotContains(response, "Baloo_Hand")
+        self.assertNotContains(response, "Baloo Hand")
 
     def test_home_hero_uses_popular_cover(self):
         image = ProductImageFactory(is_cover=True, product__popularity=50, product__title="Лисичка")

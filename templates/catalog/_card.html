@@ -22,8 +22,7 @@
           <span class="price__current{% if product.price.has_discount %} price__current--sale{% endif %}">{{ product.price.final|rub }}</span>
           {% if product.price.old %}<span class="price__old">{{ product.price.old|rub }}</span>{% endif %}
         </div>
-        {# The button is wired to the cart in stage 3 (data-product-id is the hook). #}
-        <button class="btn btn--sm" type="button" data-product-id="{{ product.pk }}">В корзину</button>
+        {% include "orders/_add_button.html" with product=product css="btn btn--sm" label="В корзину" %}
       </div>
     </div>
   </article>

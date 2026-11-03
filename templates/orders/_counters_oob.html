@@ -1,0 +1,2 @@
+<span id="cart-count-header" class="counter" hx-swap-oob="outerHTML"{% if not cart_count %} hidden{% endif %}>{{ cart_count }}</span>
+<span id="cart-count-nav" class="counter" hx-swap-oob="outerHTML"{% if not cart_count %} hidden{% endif %}{% if cart_count %} aria-label="{{ cart_count }} в корзине"{% endif %}>{{ cart_count }}</span>

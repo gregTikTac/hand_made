@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% load shop %}
+
+{% block title %}Корзина — {{ SITE_NAME }}{% endblock %}
+
+{% block content %}
+<div class="container">
+  <nav class="breadcrumbs" aria-label="Хлебные крошки"><a href="{% url 'home' %}">Главная</a><span aria-hidden="true">/</span><span>Корзина</span></nav>
+  <h1 class="h2">Корзина</h1>
+  {% include "orders/_cart_body.html" %}
+</div>
+{% endblock %}

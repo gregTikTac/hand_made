@@ -10,12 +10,13 @@ def site_settings(request):
     only links that are set are shown.
     """
     return {
-        "SITE_NAME": getattr(settings, "SITE_NAME", "Baloo Hand"),
+        "SITE_NAME": getattr(settings, "SITE_NAME", "Екатерина Зуева"),
+        "LEGAL_NAME": getattr(settings, "LEGAL_NAME", "Зуева Екатерина Юрьевна"),
         "ADMIN_URL": getattr(settings, "ADMIN_URL", "admin/"),
         "CONTACT_LINKS": [
             {"title": title, "url": url, "external": external}
             for title, url, external in (
-                ("Поддержка", getattr(settings, "SUPPORT_URL", ""), False),
+                ("Поддержка", getattr(settings, "SUPPORT_URL", ""), True),
                 ("VK", getattr(settings, "VK_URL", ""), True),
                 ("Telegram", getattr(settings, "TELEGRAM_URL", ""), True),
                 ("Instagram", getattr(settings, "INSTAGRAM_URL", ""), True),

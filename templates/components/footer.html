@@ -5,9 +5,11 @@
         <a class="logo" href="{% url 'home' %}">{% include "components/wordmark.html" %}</a>
         <p class="muted" style="margin-top:var(--space-3)">PDF-мастер-классы по вязанию игрушек.</p>
         <div class="socials">
-          <a class="social" href="#" rel="noopener">VK</a>
-          <a class="social" href="#" rel="noopener">Instagram</a>
-          <a class="social" href="#" rel="noopener">Telegram</a>
+          {% for link in CONTACT_LINKS %}
+            {% if link.title != "Поддержка" %}
+            <a class="social" href="{{ link.url }}" rel="noopener noreferrer" target="_blank">{{ link.title }}</a>
+            {% endif %}
+          {% endfor %}
         </div>
       </div>
       <div>
@@ -21,7 +23,11 @@
       <div>
         <div class="footer__title">Помощь</div>
         <ul class="footer__links">
-          <li><a href="#">Поддержка</a></li>
+          {% for link in CONTACT_LINKS %}
+            {% if link.title == "Поддержка" %}
+            <li><a href="{{ link.url }}" rel="noopener noreferrer" target="_blank">Поддержка</a></li>
+            {% endif %}
+          {% endfor %}
           <li><a href="#">Не пришло письмо?</a></li>
         </ul>
       </div>
@@ -34,6 +40,6 @@
         </ul>
       </div>
     </div>
-    <div class="footer__legal">© {% now 'Y' %} {{ SITE_NAME }}</div>
+    <div class="footer__legal">© {% now 'Y' %} {{ LEGAL_NAME }}</div>
   </div>
 </footer>

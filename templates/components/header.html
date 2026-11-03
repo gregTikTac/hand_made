@@ -6,6 +6,6 @@
       <a href="{% url 'catalog:list' %}" {% if request.path == '/catalog/' or request.path == '/catalog/combo/' or '/p/' in request.path %}aria-current="page"{% endif %}>Мастер-классы</a>
       <a href="#about">Об авторе</a>
     </nav>
-    <a class="btn btn--ghost header__cart" href="#">Корзина</a>
+    <a class="btn btn--ghost header__cart" href="{% url 'orders:cart' %}">Корзина <span id="cart-count-header" class="counter"{% if not cart_count %} hidden{% endif %}>{{ cart_count }}</span></a>
   </div>
 </header>

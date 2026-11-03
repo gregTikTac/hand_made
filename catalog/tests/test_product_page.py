@@ -95,7 +95,11 @@ def test_contact_links_shown_when_configured(client, settings):
     assert 'rel="noopener noreferrer"' in html
 
 
-def test_no_questions_block_without_links(client):
+def test_no_questions_block_without_links(client, settings):
+    settings.VK_URL = ""
+    settings.SUPPORT_URL = ""
+    settings.TELEGRAM_URL = ""
+    settings.INSTAGRAM_URL = ""
     html = client.get(ProductFactory().get_absolute_url()).content.decode()
     assert "Остались вопросы?" not in html
 

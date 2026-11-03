@@ -5,7 +5,7 @@
   <a class="bottom-nav__item" href="{% url 'catalog:list' %}" {% if request.path == '/catalog/' or request.path == '/catalog/combo/' or '/p/' in request.path %}aria-current="page"{% endif %}>
     <svg><use href="#i-grid"/></svg>Мастер-классы
   </a>
-  <a class="bottom-nav__item" href="#">
-    <svg><use href="#i-bag"/></svg>Корзина
+  <a class="bottom-nav__item" href="{% url 'orders:cart' %}" {% if request.path == '/cart/' %}aria-current="page"{% endif %}>
+    <svg><use href="#i-bag"/></svg>Корзина<span id="cart-count-nav" class="counter"{% if not cart_count %} hidden{% endif %}{% if cart_count %} aria-label="{{ cart_count }} в корзине"{% endif %}>{{ cart_count }}</span>
   </a>
 </nav>
