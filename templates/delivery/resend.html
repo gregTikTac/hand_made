@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block title %}Не пришло письмо? — {{ SITE_NAME }}{% endblock %}
+
+{% block content %}
+<div class="container" style="padding-block: var(--space-8); max-width: 36rem">
+  <h1 class="h2">Не пришло письмо?</h1>
+  <p class="muted">Укажите почту, которую писали при заказе. Если заказ есть, ссылки придут ещё раз. Старые ссылки после этого не откроются.</p>
+  {% if limited %}
+  <div class="alert alert--error" role="alert">Слишком много попыток. Попробуйте позже.</div>
+  {% endif %}
+  {% if sent %}
+  <div class="alert alert--info" role="status">Если заказ с этой почтой есть, письмо уже отправлено.</div>
+  {% else %}
+  <form class="panel" method="post">
+    {% csrf_token %}
+    <div class="field">
+      <label class="field__label" for="email">Email</label>
+      <input class="input" id="email" name="email" type="email" required autocomplete="email">
+    </div>
+    <button class="btn" type="submit">Выслать ссылки</button>
+  </form>
+  {% endif %}
+</div>
+{% endblock %}

@@ -14,11 +14,26 @@ def storefront_products():
 
 
 def attach_prices(products, now: datetime | None = None):
-    """Set ``product.price`` (a PriceInfo) on every product — the only price shown to customers."""
+    """Set ``product.price`` on every product. Campaign and preorders are loaded once."""
     now = now or timezone.now()
     products = list(products)
+    if not products:
+        return products
+    from promo.models import DiscountCampaign, PreorderRelease
+
+    releases = {
+        row.product_id: row
+        for row in PreorderRelease.objects.filter(product_id__in=[item.pk for item in products])
+    }
+    campaign = (
+        DiscountCampaign.objects.filter(is_active=True, starts_at__lte=now, ends_at__gt=now)
+        .order_by("-percent")
+        .first()
+    )
     for product in products:
-        product.price = get_price(product, now)
+        product.price = get_price(
+            product, now, release=releases.get(product.pk), campaign=campaign, _lookup=False
+        )
     return products
 
 

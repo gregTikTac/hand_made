@@ -54,12 +54,23 @@
 
 <section class="section section--muted" id="about">
   <div class="container about">
-    <div class="about__photo"><span class="ph ph--5" role="img" aria-label="Фото автора"></span></div>
+    <div class="about__photo">
+      {% if about and about.image %}
+        <img src="{{ about.image.url }}" alt="{{ about.title }}">
+      {% else %}
+        <span class="ph ph--5" role="img" aria-label="Фото автора"></span>
+      {% endif %}
+    </div>
     <div>
       <p class="hero__eyebrow">Об авторе</p>
-      <h2>Привет! Я автор этих схем</h2>
-      <p>Здесь короткий текст об авторе: сколько лет вяжет, почему амигуруми, как устроены мастер-классы. Текст заказчица редактирует сама в админке.</p>
-      <a class="btn btn--secondary" href="#">Подробнее</a>
+      {% if about %}
+        <h2>{{ about.title }}</h2>
+        {{ about.body|linebreaks }}
+        <a class="btn btn--secondary" href="{{ legal_pages.about }}">Подробнее</a>
+      {% else %}
+        <h2>Привет! Я автор этих схем</h2>
+        <p>Здесь короткий текст об авторе: сколько лет вяжет, почему амигуруми, как устроены мастер-классы. Текст заказчица редактирует сама в админке.</p>
+      {% endif %}
     </div>
   </div>
 </section>

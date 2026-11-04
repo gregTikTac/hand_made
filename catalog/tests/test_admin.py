@@ -15,6 +15,10 @@ EMPTY_INLINES = {
     "images-INITIAL_FORMS": "0",
     "videos-TOTAL_FORMS": "0",
     "videos-INITIAL_FORMS": "0",
+    "combo_items-TOTAL_FORMS": "0",
+    "combo_items-INITIAL_FORMS": "0",
+    "preorder-TOTAL_FORMS": "0",
+    "preorder-INITIAL_FORMS": "0",
 }
 
 

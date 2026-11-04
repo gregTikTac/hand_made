@@ -20,6 +20,11 @@ Pillow>=11.0,<11.1
 # Security / utils
 django-ratelimit>=4.1,<4.2
 
+# PDF watermark (ADR-0004): pypdf merges pages, reportlab draws the buyer line.
+# https://github.com/py-pdf/pypdf  https://github.com/MrBitBucket/reportlab
+pypdf>=5.4,<6
+reportlab>=4.2,<4.3
+
 # WSGI / server
 gunicorn>=23.0,<24.0
 whitenoise>=6.8,<6.9

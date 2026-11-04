@@ -1,0 +1,13 @@
+<!doctype html>
+<html lang="ru">
+<body style="font-family: sans-serif; color: #2a2118; line-height: 1.5;">
+  <p>Здравствуйте!</p>
+  <p>Ссылки по заказу <strong>{{ order.number }}</strong> выпущены заново. Прежние больше не работают. Срок — {{ days }} дней, {{ downloads }} скачиваний.</p>
+  <ul>
+    {% for link in links %}
+    <li><a href="{{ link.url }}">{{ link.label }}</a></li>
+    {% endfor %}
+  </ul>
+  <p>— {{ site_name }}</p>
+</body>
+</html>

@@ -8,14 +8,15 @@ from django.contrib import admin, messages
 from django.db import models
 from django.utils.html import format_html
 from import_export.admin import ImportExportModelAdmin
-from unfold.admin import ModelAdmin, TabularInline
+from unfold.admin import ModelAdmin, StackedInline, TabularInline
 from unfold.contrib.import_export.forms import ExportForm, ImportForm
 from unfold.decorators import action, display
 
-from catalog.models import Category, Product, ProductImage, ProductVideo
+from catalog.models import Category, ComboItem, Product, ProductImage, ProductVideo
 from catalog.pricing import get_price
 from catalog.resources import ProductResource
 from core.money import format_rub
+from promo.models import PreorderRelease
 
 
 class ProductImageInline(TabularInline):
@@ -63,6 +64,25 @@ class CategoryAdmin(ModelAdmin):
     fields = ("title", "slug", "position", "is_visible")
 
 
+class ComboItemInline(TabularInline):
+    model = ComboItem
+    fk_name = "combo"
+    extra = 0
+    autocomplete_fields = ("item",)
+    fields = ("item", "position")
+    verbose_name = "мастер-класс в наборе"
+    verbose_name_plural = "Состав комбо — покупатель получит PDF каждой строки"
+    ordering_field = "position"
+    hide_ordering_field = True
+
+
+class PreorderInline(StackedInline):
+    model = PreorderRelease
+    extra = 0
+    max_num = 1
+    verbose_name_plural = "Предзаказ (сначала сохраните его, потом публикуйте товар без PDF)"
+
+
 @admin.register(Product)
 class ProductAdmin(ImportExportModelAdmin, ModelAdmin):
     resource_classes = [ProductResource]
@@ -85,7 +105,7 @@ class ProductAdmin(ImportExportModelAdmin, ModelAdmin):
     search_fields = ("title", "slug", "description")
     filter_horizontal = ("categories",)
     save_on_top = True
-    inlines = (ProductImageInline, ProductVideoInline)
+    inlines = (ProductImageInline, ProductVideoInline, ComboItemInline, PreorderInline)
     actions = ("publish", "unpublish", "archive")
 
     fieldsets = (

@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block title %}Ссылка на файл — {{ SITE_NAME }}{% endblock %}
+
+{% block content %}
+<div class="container" style="padding-block: var(--space-8)">
+  <div class="empty panel">
+    {% if state == "limited" %}
+    <h1 class="h3">Слишком много попыток</h1>
+    <p class="muted">Подождите минуту и откройте ссылку из письма ещё раз.</p>
+    {% elif state == "limit" %}
+    <h1 class="h3">Лимит скачиваний исчерпан</h1>
+    <p class="muted">Запросите письмо ещё раз — придёт новая ссылка на тот же адрес.</p>
+    <a class="btn" href="{% url 'delivery:resend' %}">Не пришло письмо?</a>
+    {% else %}
+    <h1 class="h3">Ссылка не работает</h1>
+    <p class="muted">Она устарела или уже заменена новой. Запросите письмо ещё раз.</p>
+    <a class="btn" href="{% url 'delivery:resend' %}">Не пришло письмо?</a>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

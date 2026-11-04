@@ -129,6 +129,7 @@ def place_order(*, products, seen: dict[int, int], email: str, marketing: bool, 
                 title=product.title,
                 unit_price=price.final,
                 price_source=price.source,
+                campaign_id=price.campaign_id,
             )
             for product, price in items
         ]

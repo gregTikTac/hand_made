@@ -1,0 +1,10 @@
+Здравствуйте!
+
+Ссылки по заказу {{ order.number }} выпущены заново. Прежние больше не работают. Срок — {{ days }} дней, {{ downloads }} скачиваний.
+
+{% for link in links %}
+{{ link.label }}
+{{ link.url }}
+{% endfor %}
+
+— {{ site_name }}

@@ -2,13 +2,12 @@
 {% load shop %}
 
 {% block title %}{{ product.seo_title|default:product.title }} — {{ SITE_NAME }}{% endblock %}
+{% block description %}{{ product.seo_description|default:product.card_description|truncatechars:160 }}{% endblock %}
+{% block og_title %}{{ product.seo_title|default:product.title }}{% endblock %}
+{% block og_description %}{{ product.seo_description|default:product.card_description|truncatechars:160 }}{% endblock %}
 
 {% block meta %}
-<meta name="description" content="{{ product.seo_description|default:product.card_description|truncatechars:160 }}">
 <link rel="canonical" href="{{ request.scheme }}://{{ request.get_host }}{{ product.get_absolute_url }}">
-<meta property="og:type" content="product">
-<meta property="og:title" content="{{ product.seo_title|default:product.title }}">
-<meta property="og:description" content="{{ product.seo_description|default:product.card_description|truncatechars:160 }}">
 {% if product.cover %}<meta property="og:image" content="{{ request.scheme }}://{{ request.get_host }}{{ product.cover.image.url }}">{% endif %}
 {% if is_preview %}<meta name="robots" content="noindex">{% endif %}
 {% endblock %}
@@ -38,8 +37,12 @@
         <div class="price price--lg">
           <span class="price__current{% if product.price.has_discount %} price__current--sale{% endif %}">{{ product.price.final|rub }}</span>
           {% if product.price.old %}<span class="price__old">{{ product.price.old|rub }}</span>{% endif %}
+          {% if product.price.is_preorder %}<span class="badge badge--preorder">Предзаказ</span>{% endif %}
           {% if product.price.is_sale %}<span class="badge badge--sale">−{{ product.price.discount_percent }}%</span>{% endif %}
         </div>
+        {% if product.price.release_date %}
+        <p class="muted">Файл придёт {{ product.price.release_date|date:"j E Y" }}</p>
+        {% endif %}
         {% include "orders/_add_button.html" with product=product css="btn btn--block" label="Добавить в корзину" %}
       </div>
 

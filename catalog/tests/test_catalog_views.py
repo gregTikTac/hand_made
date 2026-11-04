@@ -95,7 +95,7 @@ class TestCatalogList:
     def test_query_count_does_not_grow_with_products(self, client, django_assert_max_num_queries):
         for product in make_products(PAGE_SIZE):
             ProductImageFactory(product=product)
-        with django_assert_max_num_queries(8):
+        with django_assert_max_num_queries(12):
             assert client.get(reverse("catalog:list")).status_code == 200
 
 

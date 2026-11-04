@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block title %}{{ page.title }} — {{ SITE_NAME }}{% endblock %}
+
+{% block content %}
+<article class="container prose" style="padding-block: var(--space-8); max-width: 42rem">
+  <h1 class="h2">{{ page.title }}</h1>
+  {% if page.image %}
+  <img src="{{ page.image.url }}" alt="" style="width: 100%; border-radius: var(--radius-lg); margin-block: var(--space-4)">
+  {% endif %}
+  {{ page.body|linebreaks }}
+</article>
+{% endblock %}

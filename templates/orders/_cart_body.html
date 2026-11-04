@@ -59,7 +59,7 @@
         </div>
         <label class="checkbox{% if form.consent.errors %} checkbox--error{% endif %}">
           {{ form.consent }}
-          <span>Принимаю <a class="link" href="#">оферту</a> и даю <a class="link" href="#">согласие на обработку персональных данных</a>
+          <span>Принимаю <a class="link" href="{{ legal_pages.offer }}">оферту</a> и даю <a class="link" href="{{ legal_pages.pdn }}">согласие на обработку персональных данных</a>
             {% if form.consent.errors %}<span>— обязательно</span>{% endif %}
           </span>
         </label>

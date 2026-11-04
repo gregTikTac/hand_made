@@ -241,11 +241,16 @@ class Product(models.Model):
                 "Старая цена должна быть больше обычной (или оставьте поле пустым)."
             )
         if self.status == self.Status.PUBLISHED and not self.pdf_file and not self.is_combo:
-            # Stage 6 relaxes this for preorders (PreorderRelease); combos deliver their items' PDFs.
-            errors["pdf_file"] = (
-                "Нельзя опубликовать мастер-класс без PDF: покупатель оплатит и не получит файл. "
-                "Загрузите PDF или оставьте черновик."
+            from promo.models import PreorderRelease
+
+            has_preorder = (
+                bool(self.pk) and PreorderRelease.objects.filter(product_id=self.pk).exists()
             )
+            if not has_preorder:
+                errors["pdf_file"] = (
+                    "Нельзя опубликовать мастер-класс без PDF: покупатель оплатит и не получит файл. "
+                    "Загрузите PDF, оформите предзаказ отдельным сохранением или оставьте черновик."
+                )
         if errors:
             raise ValidationError(errors)
 
@@ -256,6 +261,49 @@ class Product(models.Model):
             if update_fields is not None:
                 kwargs["update_fields"] = {*update_fields, "slug"}
         super().save(*args, **kwargs)
+
+
+class ComboItem(models.Model):
+    """One toy inside a combo. The buyer receives that toy's PDF, not a merged file."""
+
+    combo = models.ForeignKey(
+        Product,
+        verbose_name="Комбо",
+        on_delete=models.CASCADE,
+        related_name="combo_items",
+        limit_choices_to={"is_combo": True},
+    )
+    item = models.ForeignKey(
+        Product,
+        verbose_name="Мастер-класс в наборе",
+        on_delete=models.PROTECT,
+        related_name="part_of_combos",
+    )
+    position = models.PositiveSmallIntegerField("Порядок", default=0)
+
+    class Meta:
+        verbose_name = "позиция комбо"
+        verbose_name_plural = "Состав комбо"
+        ordering = ("position", "id")
+        constraints = [
+            models.UniqueConstraint(fields=["combo", "item"], name="comboitem_unique"),
+        ]
+
+    def __str__(self) -> str:
+        return f"{self.combo} → {self.item}"
+
+    def clean(self):
+        super().clean()
+        if self.combo_id and self.combo_id == self.item_id:
+            raise ValidationError("Комбо не может включать само себя.")
+        if self.item_id and self.item.is_combo:
+            raise ValidationError(
+                {"item": "В набор кладётся обычный мастер-класс, не другое комбо."}
+            )
+        if self.combo_id and not self.combo.is_combo:
+            raise ValidationError(
+                {"combo": "Состав заполняется только у товара с галочкой «Комбо»."}
+            )
 
 
 class ProductImage(models.Model):

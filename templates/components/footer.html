@@ -17,7 +17,7 @@
         <ul class="footer__links">
           <li><a href="{% url 'catalog:list' %}">Все мастер-классы</a></li>
           <li><a href="{% url 'catalog:combo' %}">Комбо</a></li>
-          <li><a href="#about">Об авторе</a></li>
+          <li><a href="{{ legal_pages.about }}">Об авторе</a></li>
         </ul>
       </div>
       <div>
@@ -28,15 +28,15 @@
             <li><a href="{{ link.url }}" rel="noopener noreferrer" target="_blank">Поддержка</a></li>
             {% endif %}
           {% endfor %}
-          <li><a href="#">Не пришло письмо?</a></li>
+          <li><a href="{% url 'delivery:resend' %}">Не пришло письмо?</a></li>
         </ul>
       </div>
       <div>
         <div class="footer__title">Документы</div>
         <ul class="footer__links">
-          <li><a href="#">Публичная оферта</a></li>
-          <li><a href="#">Политика конфиденциальности</a></li>
-          <li><a href="#">Согласие на обработку ПДн</a></li>
+          <li><a href="{{ legal_pages.offer }}">Публичная оферта</a></li>
+          <li><a href="{{ legal_pages.privacy }}">Политика конфиденциальности</a></li>
+          <li><a href="{{ legal_pages.pdn }}">Согласие на обработку ПДн</a></li>
         </ul>
       </div>
     </div>

@@ -1,0 +1,10 @@
+Здравствуйте!
+
+Файл по заказу {{ order.number }} готов. Ссылки действуют {{ days }} дней, каждый файл можно скачать {{ downloads }} раз.
+
+{% for link in links %}
+{{ link.label }}
+{{ link.url }}
+{% endfor %}
+
+— {{ site_name }}

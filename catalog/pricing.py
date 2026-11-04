@@ -34,6 +34,8 @@ class PriceInfo:
     source: str  # base | campaign | preorder
     badges: tuple[str, ...] = ()  # "preorder" first, then "sale"
     discount_percent: int = 0  # percent actually applied
+    campaign_id: int | None = None
+    release_date: datetime | None = None
 
     @property
     def has_discount(self) -> bool:
@@ -96,10 +98,73 @@ def calculate_price(
     return PriceInfo(final=base, old=old, source=source, badges=tuple(badges))
 
 
-def get_price(product, now: datetime | None = None) -> PriceInfo:
+def get_price(
+    product, now: datetime | None = None, *, release=None, campaign=None, _lookup=True
+) -> PriceInfo:
     """Price of a product at moment ``now``.
 
-    Stage 6 plugs in the active DiscountCampaign and PreorderRelease here.
+    ``attach_prices`` passes the campaign and preorder it already loaded.
+    A direct call looks them up itself.
     """
-    now = now or timezone.now()  # noqa: F841 — used by stage 6 (campaign/preorder windows)
-    return calculate_price(product.base_price, product.compare_price)
+    now = now or timezone.now()
+    if _lookup:
+        campaign_percent, campaign_id, preorder_percent, release_date = _offers(product, now)
+    else:
+        campaign_percent, campaign_id, preorder_percent, release_date = _from_loaded(
+            release, campaign, now
+        )
+    info = calculate_price(
+        product.base_price,
+        product.compare_price,
+        campaign_percent=campaign_percent,
+        preorder_percent=preorder_percent,
+    )
+    applied_campaign = campaign_id if info.source == SOURCE_CAMPAIGN else None
+    return PriceInfo(
+        final=info.final,
+        old=info.old,
+        source=info.source,
+        badges=info.badges,
+        discount_percent=info.discount_percent,
+        campaign_id=applied_campaign,
+        release_date=release_date if preorder_percent is not None else None,
+    )
+
+
+def _offers(product, now: datetime):
+    from promo.models import DiscountCampaign, PreorderRelease
+
+    release = PreorderRelease.objects.filter(product_id=product.pk).first()
+    campaign = (
+        DiscountCampaign.objects.filter(is_active=True, starts_at__lte=now, ends_at__gt=now)
+        .order_by("-percent")
+        .first()
+    )
+    return _from_loaded(release, campaign, now)
+
+
+def _from_loaded(release, campaign, now: datetime):
+    from promo.models import PreorderRelease
+
+    preorder_percent = None
+    release_date = None
+    in_window = False
+    if (
+        release
+        and release.status
+        in (
+            PreorderRelease.Status.SCHEDULED,
+            PreorderRelease.Status.SELLING,
+        )
+        and release.sales_start <= now <= release.sales_end
+    ):
+        preorder_percent = release.discount_percent
+        release_date = release.release_date
+        in_window = True
+
+    campaign_percent = None
+    campaign_id = None
+    if campaign and not (campaign.exclude_preorders and in_window):
+        campaign_percent = campaign.percent
+        campaign_id = campaign.pk
+    return campaign_percent, campaign_id, preorder_percent, release_date

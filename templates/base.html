@@ -17,12 +17,16 @@
     })();
   </script>
   <title>{% block title %}{{ SITE_NAME }}{% endblock %}</title>
+  <meta name="description" content="{% block description %}PDF-мастер-классы по вязанию игрушек. Оплачиваете — и схема приходит на почту.{% endblock %}">
+  <meta property="og:title" content="{% block og_title %}{{ SITE_NAME }}{% endblock %}">
+  <meta property="og:description" content="{% block og_description %}PDF-мастер-классы по вязанию игрушек.{% endblock %}">
+  <meta property="og:type" content="website">
   {% block meta %}{% endblock %}
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Manrope:wght@400;500;600;700&display=swap&subset=cyrillic" rel="stylesheet">
-  <link rel="stylesheet" href="{% static 'css/tokens.css' %}?v=3">
-  <link rel="stylesheet" href="{% static 'css/components.css' %}?v=3">
+  <link rel="stylesheet" href="{% static 'css/tokens.css' %}?v=4">
+  <link rel="stylesheet" href="{% static 'css/components.css' %}?v=4">
   {% block extra_css %}{% endblock %}
 </head>
 <body class="{% block body_class %}page{% endblock %}" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
@@ -39,6 +43,7 @@
   </svg>
 
   {% include "components/header.html" %}
+  {% if PROMO_BANNER %}<div class="promo-banner">{{ PROMO_BANNER }}</div>{% endif %}
 
   <main>
     {% block content %}{% endblock %}

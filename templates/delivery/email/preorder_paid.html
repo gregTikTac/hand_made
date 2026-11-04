@@ -1,0 +1,10 @@
+<!doctype html>
+<html lang="ru">
+<body style="font-family: sans-serif; color: #2a2118; line-height: 1.5;">
+  <p>Здравствуйте!</p>
+  <p>Предзаказ <strong>{{ order.number }}</strong> принят.
+    {% if release_date %}Файл придёт {{ release_date|date:"j E Y" }}.{% else %}Файл придёт, когда мастер-класс будет готов.{% endif %}
+    Письмо со ссылкой придёт на этот же адрес.</p>
+  <p>— {{ site_name }}</p>
+</body>
+</html>
