@@ -193,9 +193,16 @@ class Command(BaseCommand):
         if not (row.get("cover_photo") or "").strip():
             return
         popularity = 10_000 - index
+        fields = []
         if product.popularity != popularity:
             product.popularity = popularity
-            product.save(update_fields=["popularity"])
+            fields.append("popularity")
+        description = (row.get("description") or "").strip()
+        if description and product.description != description:
+            product.description = description
+            fields.append("description")
+        if fields:
+            product.save(update_fields=fields)
 
     def _attach_gallery(self, product, row, index, rng) -> bool:
         """Attach real photos, or placeholders when the product has none. Return True if written."""

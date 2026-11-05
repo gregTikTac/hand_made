@@ -6,7 +6,8 @@
 
 :root {
   /* ---------- Цвет: фон ---------- */
-  --color-bg: #FBF7F0;            /* молочный (основной вариант A) */
+  --color-bg: #FFFdfb;            /* почти белый, как на референсе витрины */
+  --color-wine: #481018;          /* тёмный бургунди со скрина референса */
   --color-bg-alt: #FDFAF3;        /* светлее (вариант B) */
   --color-surface: #FFFFFF;       /* карточки, поля ввода */
   --color-surface-muted: #F3ECE0; /* плашки, «как это работает», футер */
@@ -19,9 +20,9 @@
   --color-text-inverse: #FFFFFF;
 
   /* ---------- Цвет: акцент (бордовый) ---------- */
-  --color-accent: #8E1A2E;        /* кнопки; белый текст 8.98:1 */
-  --color-accent-hover: #74142A;  /* 11.19:1 */
-  --color-accent-active: #5E1022; /* 13.35:1 */
+  --color-accent: #481018;        /* кнопки и курсив заголовков, как на референсе */
+  --color-accent-hover: #350C12;
+  --color-accent-active: #28080E;
   --color-accent-soft: #F6E7EA;   /* фон бейджа; бордовый текст 7.50:1 */
   --color-accent-disabled: #C9A3AB; /* только для disabled (WCAG не требует контраста) */
 
@@ -30,7 +31,7 @@
   --color-error-soft: #FBE9E7;
   --color-success: #2F6B3F;       /* 5.97:1 на bg */
   --color-success-soft: #E8F1EA;
-  --color-focus: #8E1A2E;
+  --color-focus: #481018;
 
   /* ---------- Шрифты (Google Fonts, есть кириллица) ---------- */
   --font-heading: "Cormorant Garamond", "Georgia", "Times New Roman", serif;
@@ -42,14 +43,16 @@
   --text-base: 1rem;    /* 16 — основной текст, поля ввода (без зума iOS) */
   --text-lg: 1.125rem;  /* 18 */
   --text-xl: 1.375rem;  /* 22 — h3 */
-  --text-2xl: 1.75rem;  /* 28 — h2 */
-  --text-3xl: 2.25rem;  /* 36 — h1 */
+  --text-2xl: 1.5rem;   /* 24 — h2 (жирный гротеск шире антиквы) */
+  --text-3xl: 2rem;     /* 32 — h1 */
   --leading-tight: 1.2;
   --leading-normal: 1.55;
+  --weight-light: 300;
   --weight-regular: 400;
   --weight-medium: 500;
   --weight-semibold: 600;
   --weight-bold: 700;
+  --weight-heavy: 800;  /* чёрная часть заголовков */
 
   /* ---------- Отступы (шаг 4px) ---------- */
   --space-1: 4px;
@@ -88,8 +91,8 @@
 
 @media (min-width: 768px) {
   :root {
-    --text-2xl: 2rem;      /* 32 */
-    --text-3xl: 3rem;      /* 48 */
+    --text-2xl: 1.875rem;  /* 30 */
+    --text-3xl: 2.5rem;    /* 40 */
     --container-pad: 32px;
     --grid-gap: 24px;
   }

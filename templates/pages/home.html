@@ -1,47 +1,96 @@
 {% extends "base.html" %}
-{% load shop %}
+{% load shop static %}
 
 {% block title %}{{ SITE_NAME }} — PDF-мастер-классы по вязанию{% endblock %}
 
 {% block content %}
 <section class="hero">
-  <div class="container hero__grid">
-    <div>
-      <p class="hero__eyebrow">PDF-мастер-классы</p>
-      <h1>Вяжем игрушки, которые хочется обнять</h1>
-      <p class="hero__lead">Подробные схемы амигуруми с фото каждого шага. Оплачиваете — и PDF сразу приходит на почту.</p>
-      <div class="hero__actions">
-        <a class="btn" href="{% url 'catalog:list' %}">Выбрать мастер-класс</a>
-        <a class="btn btn--secondary" href="#how">Как это работает</a>
-      </div>
+  <div class="container">
+    <div class="hero-card">
+      <p class="hero-card__eyebrow">начните сегодня</p>
+      <h1>Выберите свой первый <em>мастер-класс</em></h1>
+      <p>Больше 80 игрушек — от простых до сложных</p>
+      <a class="btn btn--light" href="{% url 'catalog:list' %}">Перейти в каталог</a>
     </div>
-    <div class="hero__media">
-      {% if products and products.0.cover %}
-        <a href="{{ products.0.get_absolute_url }}">
-          {% picture products.0.cover "(min-width: 1024px) 40vw, 100vw" alt=products.0.title eager=True %}
-        </a>
-      {% else %}
-        <span class="ph ph--2" role="img" aria-label="Пример вязаной игрушки"></span>
+  </div>
+</section>
+
+<section class="section section--tight">
+  <div class="container hero__intro">
+    <p class="hero__eyebrow">авторские схемы амигуруми</p>
+    <h2 class="h1">Мастер-классы по вязанию игрушек <em>от Екатерины Зуевой</em></h2>
+    <p class="hero__lead">PDF-мастер-классы с фото каждого шага. Оплачиваете — и схема приходит на почту.</p>
+    <a class="btn" href="{% url 'catalog:list' %}">Смотреть мастер-классы</a>
+  </div>
+</section>
+
+<section class="section section--tight">
+  <div class="container">
+    <ul class="stats">
+      <li>
+        <span class="stats__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 19a9 9 0 0 1 9 0a9 9 0 0 1 9 0"/><path d="M3 6a9 9 0 0 1 9 0a9 9 0 0 1 9 0"/><path d="M3 6v13"/><path d="M12 6v13"/><path d="M21 6v13"/></svg></span>
+        <div><strong>80+ мастер-классов</strong><span>Подробные PDF с фото каждого шага</span></div>
+      </li>
+      <li>
+        <span class="stats__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 7a4 4 0 1 0 8 0a4 4 0 1 0 -8 0"/><path d="M3 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/><path d="M21 21v-2a4 4 0 0 0 -3 -3.85"/></svg></span>
+        <div><strong>41 000+</strong><span>Подписчиков в ВК и Instagram*</span></div>
+      </li>
+      <li>
+        <span class="stats__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M19.5 12.572l-7.5 7.428l-7.5 -7.428a5 5 0 1 1 7.5 -6.566a5 5 0 1 1 7.5 6.572"/></svg></span>
+        <div><strong>6 лет</strong><span>Вяжу игрушки и учу этому других</span></div>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<section class="section section--tight" id="about">
+  <div class="container">
+    <div class="portrait__stage">
+      <span class="portrait__halo" aria-hidden="true"></span>
+      <img class="arch portrait__main" src="{% static 'img/author.jpg' %}" alt="Екатерина Зуева с вязаной игрушкой" width="817" height="1024">
+      <span class="portrait__dot portrait__dot--1" aria-hidden="true"></span>
+      <span class="portrait__dot portrait__dot--2" aria-hidden="true"></span>
+      <span class="portrait__dot portrait__dot--3" aria-hidden="true"></span>
+      <span class="portrait__dash" aria-hidden="true"></span>
+      {% if products %}
+        {% for product in products|slice:":2" %}
+          {% if product.cover %}
+          <a class="portrait__side portrait__side--{{ forloop.counter }}" href="{{ product.get_absolute_url }}">
+            {% picture product.cover "160px" alt=product.title %}
+          </a>
+          {% endif %}
+        {% endfor %}
       {% endif %}
+      <p class="portrait__note">
+        <span class="portrait__note-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3v4a1 1 0 0 0 1 1h4"/><path d="M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2"/><path d="M9 13h6"/><path d="M9 17h6"/></svg></span>
+        <span class="portrait__note-text"><strong>PDF на почту</strong><span>сразу после оплаты</span></span>
+      </p>
     </div>
   </div>
 </section>
 
 <section class="section" id="how">
-  <div class="container">
-    <div class="section__head"><h2>Как это работает</h2></div>
+  <div class="container copy">
+    <p class="hero__eyebrow">как это работает</p>
+    <h2>От выбора до <em>готовой игрушки</em></h2>
     <ol class="steps">
-      <li class="step"><div class="step__title">Выберите схему</div><p class="step__text">Больше 80 мастер-классов и комбо-наборы.</p></li>
-      <li class="step"><div class="step__title">Укажите email</div><p class="step__text">Регистрация не нужна.</p></li>
-      <li class="step"><div class="step__title">Оплатите</div><p class="step__text">Картой или по СБП, чек придёт на почту.</p></li>
-      <li class="step"><div class="step__title">Получите PDF</div><p class="step__text">Ссылка на файл придёт в письме сразу после оплаты.</p></li>
+      <li class="step"><div class="step__title">Выберите мастер-класс</div><p class="step__text">Найдите игрушку в каталоге и положите в корзину.</p></li>
+      <li class="step"><div class="step__title">Оплатите</div><p class="step__text">Картой или через СБП. Регистрация не нужна.</p></li>
+      <li class="step"><div class="step__title">Получите PDF</div><p class="step__text">Ссылка на файл придёт на почту сразу после оплаты.</p></li>
+      <li class="step"><div class="step__title">Вяжите по шагам</div><p class="step__text">В файле фото и описание в своём темпе.</p></li>
     </ol>
   </div>
 </section>
 
 <section class="section">
   <div class="container">
-    <div class="section__head"><h2>Популярные</h2><a class="link" href="{% url 'catalog:list' %}">Все</a></div>
+    <div class="section__head">
+      <div>
+        <p class="hero__eyebrow">любимые у покупателей</p>
+        <h2>Популярные <em>мастер-классы</em></h2>
+      </div>
+      <a class="link" href="{% url 'catalog:list' %}">Смотреть все</a>
+    </div>
     {% if products %}
     <ul class="product-grid">
       {% for product in products %}{% include "catalog/_card.html" %}{% endfor %}
@@ -52,25 +101,46 @@
   </div>
 </section>
 
-<section class="section section--muted" id="about">
+<section class="section">
   <div class="container about">
     <div class="about__photo">
-      {% if about and about.image %}
-        <img src="{{ about.image.url }}" alt="{{ about.title }}">
-      {% else %}
-        <span class="ph ph--5" role="img" aria-label="Фото автора"></span>
-      {% endif %}
+      <img class="arch" src="{% static 'img/author.jpg' %}" alt="Екатерина Зуева" width="817" height="1024">
     </div>
-    <div>
-      <p class="hero__eyebrow">Об авторе</p>
-      {% if about %}
-        <h2>{{ about.title }}</h2>
-        {{ about.body|linebreaks }}
-        <a class="btn btn--secondary" href="{{ legal_pages.about }}">Подробнее</a>
-      {% else %}
-        <h2>Привет! Я автор этих схем</h2>
-        <p>Здесь короткий текст об авторе: сколько лет вяжет, почему амигуруми, как устроены мастер-классы. Текст заказчица редактирует сама в админке.</p>
-      {% endif %}
+    <div class="copy">
+      <p class="hero__eyebrow">об авторе</p>
+      <h2>Екатерина <em>Зуева</em></h2>
+      <p class="about__quote">«Добро пожаловать в плюшевый мир амигуруми»</p>
+      <p>Мастер с шестилетним стажем: вяжет игрушки крючком и учит этому других. Здесь больше 80 авторских мастер-классов.</p>
+      <a class="btn btn--secondary" href="{{ legal_pages.about }}">Подробнее об авторе</a>
+    </div>
+  </div>
+</section>
+
+<section class="section section--tight">
+  <div class="container copy faq">
+    <p class="hero__eyebrow">коротко о покупке, оплате и получении PDF</p>
+    <h2>Частые <em>вопросы</em></h2>
+    <div class="faq__list">
+      <details class="faq__item">
+        <summary>Как купить мастер-класс?</summary>
+        <p>Выберите схему, укажите почту в корзине и оплатите. Регистрация не нужна.</p>
+      </details>
+      <details class="faq__item">
+        <summary>В каком виде приходит мастер-класс?</summary>
+        <p>На почту приходит письмо со ссылкой. Сам PDF в письмо не вкладывается. Ссылка живёт 30 дней, скачать файл можно 5 раз.</p>
+      </details>
+      <details class="faq__item">
+        <summary>Письмо не пришло. Что делать?</summary>
+        <p>Проверьте папку «Спам» или откройте на сайте «Не пришло письмо?» и укажите ту же почту, что при заказе.</p>
+      </details>
+      <details class="faq__item">
+        <summary>Что такое предзаказ?</summary>
+        <p>Схему уже можно оплатить, а файл ещё готовится. На карточке написана дата, когда PDF придёт на почту.</p>
+      </details>
+      <details class="faq__item">
+        <summary>Ошиблись в e-mail при оплате?</summary>
+        <p>Напишите в поддержку с того адреса, который указали, и с номера заказа. Ссылку отправим на верную почту.</p>
+      </details>
     </div>
   </div>
 </section>
