@@ -4,7 +4,8 @@
 {% block title %}{{ SITE_NAME }} — PDF-мастер-классы по вязанию{% endblock %}
 
 {% block content %}
-<section class="hero">
+<div class="page-grid">
+<section class="hero span">
   <div class="container">
     <div class="hero-card">
       <p class="hero-card__eyebrow">начните сегодня</p>
@@ -15,17 +16,14 @@
   </div>
 </section>
 
-<section class="section section--tight">
-  <div class="container hero__intro">
-    <p class="hero__eyebrow">авторские схемы амигуруми</p>
-    <h2 class="h1">Мастер-классы по вязанию игрушек <em>от Екатерины Зуевой</em></h2>
-    <p class="hero__lead">PDF-мастер-классы с фото каждого шага. Оплачиваете — и схема приходит на почту.</p>
-    <a class="btn" href="{% url 'catalog:list' %}">Смотреть мастер-классы</a>
-  </div>
-</section>
-
-<section class="section section--tight">
-  <div class="container">
+<section class="section section--tight span">
+  <div class="container lead-row">
+    <div class="hero__intro">
+      <p class="hero__eyebrow">авторские схемы амигуруми</p>
+      <h2 class="h1">Мастер-классы по вязанию игрушек <em>от Екатерины Зуевой</em></h2>
+      <p class="hero__lead">PDF-мастер-классы с фото каждого шага. Оплачиваете — и схема приходит на почту.</p>
+      <a class="btn" href="{% url 'catalog:list' %}">Смотреть мастер-классы</a>
+    </div>
     <ul class="stats">
       <li>
         <span class="stats__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 19a9 9 0 0 1 9 0a9 9 0 0 1 9 0"/><path d="M3 6a9 9 0 0 1 9 0a9 9 0 0 1 9 0"/><path d="M3 6v13"/><path d="M12 6v13"/><path d="M21 6v13"/></svg></span>
@@ -43,7 +41,7 @@
   </div>
 </section>
 
-<section class="section section--tight" id="about">
+<section class="section section--tight portrait-section" id="about">
   <div class="container">
     <div class="portrait__stage">
       <span class="portrait__halo" aria-hidden="true"></span>
@@ -69,8 +67,8 @@
   </div>
 </section>
 
-<section class="section" id="how">
-  <div class="container copy">
+<section class="section span" id="how">
+  <div class="container">
     <p class="hero__eyebrow">как это работает</p>
     <h2>От выбора до <em>готовой игрушки</em></h2>
     <ol class="steps">
@@ -82,7 +80,7 @@
   </div>
 </section>
 
-<section class="section">
+<section class="section span products-section">
   <div class="container">
     <div class="section__head">
       <div>
@@ -101,7 +99,7 @@
   </div>
 </section>
 
-<section class="section">
+<section class="section about-section">
   <div class="container about">
     <div class="about__photo">
       <img class="arch" src="{% static 'img/author.jpg' %}" alt="Екатерина Зуева" width="817" height="1024">
@@ -116,7 +114,7 @@
   </div>
 </section>
 
-<section class="section section--tight">
+<section class="section section--tight span faq-section">
   <div class="container copy faq">
     <p class="hero__eyebrow">коротко о покупке, оплате и получении PDF</p>
     <h2>Частые <em>вопросы</em></h2>
@@ -144,4 +142,5 @@
     </div>
   </div>
 </section>
+</div>
 {% endblock %}
